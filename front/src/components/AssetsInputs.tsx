@@ -15,6 +15,10 @@ function AssetsInputs() {
   ]);
   const [asset, setAsset] = React.useState<number | null>(null);
 
+  function handleClick() {
+    console.log("clicou");
+  }
+
   return (
     <div className="p-5 flex-1 bg-slate-300">
       <h1 className="text-3xl font-bold my-3">Inoa Sistemas</h1>
@@ -41,7 +45,7 @@ function AssetsInputs() {
           value={minValue}
           setValue={setMinValue}
         />
-        <Button name={"Adicionar"} />
+        <Button name={"Adicionar"} onClick={handleClick} />
       </div>
     </div>
   );
