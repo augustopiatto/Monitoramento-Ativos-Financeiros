@@ -1,9 +1,10 @@
 import React from "react";
-import TextInput from "./htHTML_Components/Input";
+import TextInput from "./html_components/Input";
 import MoneyInput from "./input_components/MoneyInput";
-import Select from "./htHTML_Components/Select";
+import Select from "./html_components/Select";
 import AssetInterface from "../interfaces/ItemInterface";
-import Button from "./htHTML_Components/Button";
+import Button from "./html_components/Button";
+import Spacer from "./Spacer";
 
 function AssetsInputs() {
   const [peridiocity, setPeridiocity] = React.useState<number>(0);
@@ -20,33 +21,31 @@ function AssetsInputs() {
   }
 
   return (
-    <div className="p-5 flex-1 bg-slate-300">
-      <h1 className="text-3xl font-bold my-3">Inoa Sistemas</h1>
-      <div className="flex flex-col gap-3 items-center justify-center">
-        <Select
-          name={"Ativos"}
-          placeholder={"Escolha o ativo"}
-          setValue={setAsset}
-          items={assetsItems}
-        />
-        <TextInput
-          name={"Peridiocidade"}
-          placeholder={"minutos"}
-          value={peridiocity}
-          setValue={setPeridiocity}
-        />
-        <MoneyInput
-          name={"Túnel Superior (R$)"}
-          value={maxValue}
-          setValue={setMaxValue}
-        />
-        <MoneyInput
-          name={"Túnel Inferior (R$)"}
-          value={minValue}
-          setValue={setMinValue}
-        />
-        <Button name={"Adicionar"} onClick={handleClick} />
-      </div>
+    <div className="bg-slate-300 flex flex-1 flex-col gap-3 items-center justify-center">
+      <Select
+        name={"Ativos"}
+        placeholder={"Escolha o ativo"}
+        setValue={setAsset}
+        items={assetsItems}
+      />
+      <TextInput
+        name={"Peridiocidade"}
+        placeholder={"minutos"}
+        value={peridiocity}
+        setValue={setPeridiocity}
+      />
+      <MoneyInput
+        name={"Túnel Superior (R$)"}
+        value={maxValue}
+        setValue={setMaxValue}
+      />
+      <MoneyInput
+        name={"Túnel Inferior (R$)"}
+        value={minValue}
+        setValue={setMinValue}
+      />
+      <Spacer />
+      <Button name={"Adicionar"} onClick={handleClick} />
     </div>
   );
 }

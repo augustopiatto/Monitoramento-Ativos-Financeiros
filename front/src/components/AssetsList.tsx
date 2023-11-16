@@ -1,4 +1,5 @@
 import AssetInterface from "../interfaces/ItemInterface";
+import Tag from "./Tag";
 
 interface AssetsListInterface {
   selectedAssets: AssetInterface[];
@@ -6,14 +7,12 @@ interface AssetsListInterface {
 
 function AssetsList({ selectedAssets }: AssetsListInterface) {
   return (
-    <div className="flex justify-center">
-      <div className="flex w-10/12 bg-slate-100 rounded overflow-auto">
+    <div className="flex justify-center max-h-[500px]">
+      <div className="flex flex-wrap justify-center gap-3 w-10/12 bg-slate-100 rounded p-2 overflow-y-auto">
         {selectedAssets &&
           selectedAssets.length &&
           selectedAssets.map((asset) => (
-            <span className="grow" key={asset.id}>
-              {asset.id}
-            </span>
+            <Tag name={asset.name} key={asset.id} />
           ))}
       </div>
     </div>
