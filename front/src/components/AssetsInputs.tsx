@@ -21,7 +21,7 @@ function AssetsInputs() {
   }
 
   return (
-    <div className="bg-slate-300 flex flex-1 flex-col gap-3 items-center justify-center">
+    <div className="flex flex-1 flex-col gap-3 items-center justify-center">
       <Select
         name={"Ativos"}
         placeholder={"Escolha o ativo"}

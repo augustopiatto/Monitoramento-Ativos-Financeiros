@@ -3,12 +3,12 @@ import AssetsView from "./components/AssetsView";
 
 function App() {
   return (
-    <div className="px-5 bg-slate-200 flex flex-col h-screen">
-      <h1 className="text-3xl font-bold my-3">Inoa Sistemas</h1>
-      <div className="flex h-full">
+    <div className="bg-lb1 flex flex h-screen">
+      <div className="flex flex-1 flex-col h-full px-5">
+        <h1 className="text-3xl font-bold my-3">Inoa Sistemas</h1>
         <AssetsInputs />
-        <AssetsView />
       </div>
+      <AssetsView />
     </div>
   );
 }

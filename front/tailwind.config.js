@@ -2,7 +2,19 @@
 export default {
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        lb1: "#E9F1F4",
+        lb2: "#3BA8D7",
+        b1: "#2E55DD",
+        b2: "#193EC2",
+        bw: "#C0AD9B",
+        g1: "#8D999E",
+      },
+      maxHeight: {
+        assetslist: "calc(100vh - 30%)",
+      },
+    },
   },
   plugins: [],
 };
