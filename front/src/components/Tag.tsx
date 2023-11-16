@@ -1,8 +1,8 @@
-function TextInput() {
+function Tag() {
   return (
     <>
     </>
   )
 }
 
-export default TextInput
+export default Tag
