@@ -8,8 +8,11 @@ function AssetsInputs() {
   const [peridiocity, setPeridiocity] = React.useState<number>(0);
   const [maxValue, setMaxValue] = React.useState<number>(0);
   const [minValue, setMinValue] = React.useState<number>(0);
-  const [assetsItems, setAssetsItems] = React.useState<AssetInterface[]>([]);
-  const [asset, setAsset] = React.useState<AssetInterface | null>(null);
+  const [assetsItems, setAssetsItems] = React.useState<AssetInterface[]>([
+    { id: 1, name: "Petro" },
+    { id: 2, name: "MWL" },
+  ]);
+  const [asset, setAsset] = React.useState<number | null>(null);
 
   return (
     <div className="p-5 flex-1 bg-slate-300">
@@ -17,7 +20,6 @@ function AssetsInputs() {
       <Select
         name={"Ativos"}
         placeholder={"Escolha o ativo"}
-        value={asset}
         setValue={setAsset}
         items={assetsItems}
       />

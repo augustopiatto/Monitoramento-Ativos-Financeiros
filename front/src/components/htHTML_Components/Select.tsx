@@ -4,19 +4,14 @@ interface SelectInterface {
   items: AssetInterface[];
   name: string;
   placeholder: string;
-  value: AssetInterface;
-  setValue: (value: AssetInterface) => void;
+  setValue: (value: number) => void;
 }
 
-function Select({
-  items,
-  name,
-  placeholder,
-  value,
-  setValue,
-}: SelectInterface) {
-  function handleChange(event) {
-    console.log(event);
+function Select({ items, name, placeholder, setValue }: SelectInterface) {
+  function handleChange(event: Event) {
+    if (event && event.target) {
+      setValue(Number((event.target as HTMLButtonElement).value));
+    }
   }
 
   return (
@@ -25,13 +20,20 @@ function Select({
       <select
         className="p-2 border border-white rounded-md focus:outline-0 focus:border-2 focus:border-slate-400"
         name={name}
+        defaultValue="default"
         placeholder={placeholder}
-        value={value}
-        onChange={handleChange}
+        onChange={() => handleChange}
       >
+        <option value="default" disabled hidden>
+          {placeholder}
+        </option>
         {items &&
           items.length &&
-          items.map((item) => <option value={item.name} key={item.id} />)}
+          items.map((item) => (
+            <option value={item.id} key={item.id}>
+              {item.name}
+            </option>
+          ))}
       </select>
     </label>
   );
