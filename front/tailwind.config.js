@@ -6,6 +6,7 @@ export default {
       colors: {
         lb1: "#E9F1F4",
         lb2: "#E2F0F6",
+        lb3: "#86D0F0",
         b1: "#2E55DD",
         b2: "#193EC2",
         g1: "#ABB7BC",

@@ -102,7 +102,7 @@ function AssetsInputs() {
         setValue={setMinValue}
       />
       <Spacer />
-      <Button name={"Adicionar"} onClick={handleClick} />
+      <Button name={"Adicionar"} onClick={handleClick} secondary />
     </div>
   );
 }
