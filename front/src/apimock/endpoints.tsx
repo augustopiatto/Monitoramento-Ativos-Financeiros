@@ -1,7 +1,7 @@
 import {
   AssetInterface,
   SelectedAssetInterface,
-  assetInfos,
+  AssetInfos,
 } from "../interfaces/ItemInterface";
 
 export const assetsFromURL: AssetInterface[] = [
@@ -25,7 +25,7 @@ export const selectedAssetsFromPostgres: SelectedAssetInterface[] = [
   { name: "Buser", periodicity: 2000, max_value: 145, min_value: 140 },
 ];
 
-export const assetInfosFromPostgres: assetInfos[] = [
+export const assetInfosFromPostgres: AssetInfos[] = [
   { name: "Petro", cur_value: 150 },
   { name: "Enel", cur_value: 120 },
   { name: "MWL", cur_value: 30 },

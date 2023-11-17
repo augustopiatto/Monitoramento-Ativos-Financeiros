@@ -1,6 +1,6 @@
 import React from "react";
 import { SelectedAssetsContext } from "../contexts/SelectedAssetsContext";
-import Tag from "./Tag";
+import Tag from "./ui_components/Tag";
 
 function AssetsList() {
   const { selectedAssets } = React.useContext(SelectedAssetsContext);

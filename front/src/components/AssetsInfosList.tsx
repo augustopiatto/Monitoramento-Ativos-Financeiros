@@ -1,5 +1,6 @@
 import { AssetInfos } from "../interfaces/ItemInterface";
-import Dialog from "./Dialog";
+import Dialog from "./ui_components/Dialog";
+import Divider from "./ui_components/Divider";
 
 interface AssetsInfosListInterface {
   assetsInfos: AssetInfos[];
@@ -16,9 +17,16 @@ function AssetsInfosList({
     return (
       <Dialog opened={opened} setOpened={setOpened}>
         {assetsInfos.map((asset) => (
-          <div>
-            <h1>{asset.name}</h1>
-            <p>{asset.cur_value}</p>
+          <div className="flex flex-col gap-3" key={asset.name}>
+            <h1 className="text-2xl">
+              <span className="text-xl font-semibold">Ativo: </span>
+              <span>{asset.name}</span>
+            </h1>
+            <p className="inline text-xl">
+              <span className="font-semibold">Valor atual: </span>
+              <span>R$ {asset.cur_value}</span>
+            </p>
+            <Divider />
           </div>
         ))}
       </Dialog>

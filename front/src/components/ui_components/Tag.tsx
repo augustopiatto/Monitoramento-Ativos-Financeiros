@@ -1,6 +1,6 @@
 import React from "react";
-import { SelectedAssetInterface } from "../interfaces/ItemInterface";
-import { SelectedAssetsContext } from "../contexts/SelectedAssetsContext";
+import { SelectedAssetInterface } from "../../interfaces/ItemInterface";
+import { SelectedAssetsContext } from "../../contexts/SelectedAssetsContext";
 
 interface TagInterface {
   asset: SelectedAssetInterface;

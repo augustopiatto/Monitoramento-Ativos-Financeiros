@@ -17,7 +17,7 @@ function Dialog({ children, opened, setOpened }: DialogInterface) {
         <button onClick={closeDialog} className="absolute top-3 right-5">
           <span className="text-2xl font-bold">X</span>
         </button>
-        {children}
+        <div className="h-[calc(100vh-200px)] overflow-y-auto">{children}</div>
       </div>
     );
 }

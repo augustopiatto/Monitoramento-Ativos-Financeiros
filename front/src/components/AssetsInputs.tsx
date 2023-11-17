@@ -7,7 +7,7 @@ import {
   SelectedAssetInterface,
 } from "../interfaces/ItemInterface";
 import Button from "./html_components/Button";
-import Spacer from "./Spacer";
+import Spacer from "./ui_components/Spacer";
 import {
   assetsFromURL,
   selectedAssetsFromPostgres,

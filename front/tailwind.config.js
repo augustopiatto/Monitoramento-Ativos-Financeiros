@@ -9,6 +9,7 @@ export default {
         b1: "#2E55DD",
         b2: "#193EC2",
         g1: "#ABB7BC",
+        g2: "#717779",
       },
       height: {
         assetslist: "calc(100vh - 30%)",
