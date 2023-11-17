@@ -1,11 +1,10 @@
-import AssetInterface from "../interfaces/ItemInterface";
+import React from "react";
+import { SelectedAssetsContext } from "../contexts/SelectedAssetsContext";
 import Tag from "./Tag";
 
-interface AssetsListInterface {
-  selectedAssets: AssetInterface[];
-}
+function AssetsList() {
+  const { selectedAssets } = React.useContext(SelectedAssetsContext);
 
-function AssetsList({ selectedAssets }: AssetsListInterface) {
   return (
     <div className="flex justify-center max-h-assetslist">
       <div className="flex flex-wrap justify-center gap-3 w-10/12 bg-lb1 rounded p-2 overflow-y-auto">

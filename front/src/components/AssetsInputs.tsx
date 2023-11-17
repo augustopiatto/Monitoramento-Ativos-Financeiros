@@ -2,10 +2,14 @@ import React from "react";
 import TextInput from "./html_components/Input";
 import MoneyInput from "./input_components/MoneyInput";
 import Select from "./html_components/Select";
-import AssetInterface from "../interfaces/ItemInterface";
+import {
+  AssetInterface,
+  SelectedAssetInterface,
+} from "../interfaces/ItemInterface";
 import Button from "./html_components/Button";
 import Spacer from "./Spacer";
-import assets from "../apimock/endpoints";
+import { assetsFromURL, selectedAssets } from "../apimock/endpoints";
+import { SelectedAssetsContext } from "../contexts/SelectedAssetsContext";
 
 function AssetsInputs() {
   const [peridiocity, setPeridiocity] = React.useState<number>(0);
@@ -14,9 +18,35 @@ function AssetsInputs() {
   const [assetsItems, setAssetsItems] = React.useState<AssetInterface[]>([]);
   const [asset, setAsset] = React.useState<number | null>(null);
 
-  function loadFakeAssets() {
-    setAssetsItems(assets);
+  const { setSelectedAssets } = React.useContext(SelectedAssetsContext);
+
+  function filterNotSelectedAssets(
+    assetsFromURL: AssetInterface[],
+    selectedAssets: SelectedAssetInterface[]
+  ) {
+    const selectedAssetsNames = selectedAssets.map((asset) => asset.name);
+    const filteredAssets = assetsFromURL.filter(
+      (asset) => !selectedAssetsNames.includes(asset.name)
+    );
+    console.log(filteredAssets);
+    setAssetsItems(filteredAssets);
   }
+
+  function loadFakeAssets() {
+    setSelectedAssets(selectedAssets);
+    filterNotSelectedAssets(assetsFromURL, selectedAssets);
+  }
+
+  // async function loadAssets() {
+  //   // Deixar chamada em paralelo
+  //   const responseURL = await fetch("URL do site");
+  //   const jsonURL = await responseURL.json();
+  //   const responseSelected = await fetch("URL interna");
+  //   const jsonSelected = await responseSelected.json();
+  //   setSelectedAssets(jsonSelected);
+  //   const filteredAssets = filterNotSelectedAssets(jsonURL, jsonSelected)
+  //   setAssetsItems(filteredAssets);
+  // }
 
   function handleClick() {
     console.log("clicou");
