@@ -1,6 +1,6 @@
 interface ButtonInterface {
   name: string;
-  secondary: boolean;
+  secondary?: boolean;
   onClick: () => void;
 }
 
