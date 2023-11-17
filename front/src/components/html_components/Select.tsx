@@ -8,12 +8,6 @@ interface SelectInterface {
 }
 
 function Select({ items, name, placeholder, setValue }: SelectInterface) {
-  function handleChange(event: React.ChangeEvent<HTMLSelectElement>) {
-    if (event && event.target) {
-      setValue(event.target.value);
-    }
-  }
-
   return (
     <label
       htmlFor={name}
@@ -25,7 +19,7 @@ function Select({ items, name, placeholder, setValue }: SelectInterface) {
         name={name}
         defaultValue="default"
         placeholder={placeholder}
-        onChange={(event) => handleChange(event)}
+        onChange={(event) => setValue(event.target.value)}
       >
         <option value="default" hidden>
           {placeholder}

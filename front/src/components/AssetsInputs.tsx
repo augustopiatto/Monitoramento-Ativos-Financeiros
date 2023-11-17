@@ -1,5 +1,5 @@
 import React from "react";
-import TextInput from "./html_components/Input";
+import Input from "./html_components/Input";
 import MoneyInput from "./input_components/MoneyInput";
 import Select from "./html_components/Select";
 import {
@@ -12,9 +12,9 @@ import { assetsFromURL, selectedAssetsFromURL } from "../apimock/endpoints";
 import { SelectedAssetsContext } from "../contexts/SelectedAssetsContext";
 
 function AssetsInputs() {
-  const [peridiocity, setPeridiocity] = React.useState<number | null>(null);
-  const [maxValue, setMaxValue] = React.useState<number | null>(null);
-  const [minValue, setMinValue] = React.useState<number | null>(null);
+  const [peridiocity, setPeridiocity] = React.useState<number | "">("");
+  const [maxValue, setMaxValue] = React.useState<number | "">("");
+  const [minValue, setMinValue] = React.useState<number | "">("");
   const [assetsItems, setAssetsItems] = React.useState<AssetInterface[]>([]);
   const [assetName, setAssetName] = React.useState<string>("");
 
@@ -51,9 +51,9 @@ function AssetsInputs() {
 
   function resetInputs() {
     setAssetName("");
-    setPeridiocity(null);
-    setMaxValue(null);
-    setMinValue(null);
+    setPeridiocity("");
+    setMaxValue("");
+    setMinValue("");
   }
 
   function handleClick() {
@@ -82,7 +82,7 @@ function AssetsInputs() {
         setValue={setAssetName}
         items={assetsItems}
       />
-      <TextInput
+      <Input
         name={"Peridiocidade"}
         placeholder={"minutos"}
         value={peridiocity}
