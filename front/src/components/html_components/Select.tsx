@@ -25,7 +25,7 @@ function Select({ items, name, placeholder, setValue }: SelectInterface) {
           {placeholder}
         </option>
         {items &&
-          items.length &&
+          !!items.length &&
           items.map((item) => (
             <option value={item.name} key={item.name}>
               {item.name}

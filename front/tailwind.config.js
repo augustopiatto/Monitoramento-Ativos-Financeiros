@@ -5,11 +5,10 @@ export default {
     extend: {
       colors: {
         lb1: "#E9F1F4",
-        lb2: "#3BA8D7",
+        lb2: "#E2F0F6",
         b1: "#2E55DD",
         b2: "#193EC2",
-        bw: "#C0AD9B",
-        g1: "#8D999E",
+        g1: "#ABB7BC",
       },
       height: {
         assetslist: "calc(100vh - 30%)",

@@ -8,3 +8,8 @@ export interface SelectedAssetInterface {
   max_value: number | "";
   min_value: number | "";
 }
+
+export interface AssetInfos {
+  name: string;
+  cur_value: number;
+}

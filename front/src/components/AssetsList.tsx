@@ -6,7 +6,7 @@ function AssetsList() {
   const { selectedAssets } = React.useContext(SelectedAssetsContext);
 
   return (
-    <div className="bg-lb1 w-10/12 h-assetslist rounded-md p-2 flex flex-wrap justify-center content-start gap-3 overflow-y-auto">
+    <div className="w-10/12 h-assetslist rounded-md p-2 flex flex-wrap justify-center content-start gap-3 overflow-y-auto">
       {selectedAssets &&
         !!selectedAssets.length &&
         selectedAssets.map((asset) => <Tag asset={asset} key={asset.name} />)}

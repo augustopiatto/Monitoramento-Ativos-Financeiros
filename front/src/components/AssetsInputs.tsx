@@ -8,7 +8,10 @@ import {
 } from "../interfaces/ItemInterface";
 import Button from "./html_components/Button";
 import Spacer from "./Spacer";
-import { assetsFromURL, selectedAssetsFromURL } from "../apimock/endpoints";
+import {
+  assetsFromURL,
+  selectedAssetsFromPostgres,
+} from "../apimock/endpoints";
 import { SelectedAssetsContext } from "../contexts/SelectedAssetsContext";
 
 function AssetsInputs() {
@@ -34,8 +37,8 @@ function AssetsInputs() {
   }
 
   function loadFakeAssets() {
-    setSelectedAssets(selectedAssetsFromURL);
-    filterNotSelectedAssets(assetsFromURL, selectedAssetsFromURL);
+    setSelectedAssets(selectedAssetsFromPostgres);
+    filterNotSelectedAssets(assetsFromURL, selectedAssetsFromPostgres);
   }
 
   // async function loadAssets() {

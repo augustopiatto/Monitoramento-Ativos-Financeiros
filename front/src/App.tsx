@@ -5,7 +5,7 @@ function App() {
   return (
     <div className="bg-lb1 flex flex h-screen">
       <div className="flex flex-1 flex-col h-full px-10">
-        <h1 className="text-3xl font-bold mt-5">Inoa Sistemas</h1>
+        <h1 className="text-6xl font-bold mt-5">Inoa Sistemas</h1>
         <AssetsInputs />
       </div>
       <AssetsView />

@@ -10,7 +10,7 @@ function Tag({ asset }: TagInterface) {
   const { removeAsset } = React.useContext(SelectedAssetsContext);
 
   return (
-    <div className="bg-bw w-fit rounded-lg p-3 flex items-start gap-5">
+    <div className="bg-g1 w-fit rounded-lg p-3 flex items-start gap-5">
       <div className="flex-1">
         <p className="font-semibold">{asset.name}</p>
         <p className="font-semibold">{asset.periodicity} min</p>
