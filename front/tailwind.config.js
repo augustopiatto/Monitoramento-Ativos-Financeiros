@@ -13,6 +13,9 @@ export default {
       height: {
         assetslist: "calc(100vh - 30%)",
       },
+      boxShadow: {
+        focused: "0px 0px 10px 1000px rgba(0, 0, 0, 0.7)",
+      },
     },
   },
   plugins: [],

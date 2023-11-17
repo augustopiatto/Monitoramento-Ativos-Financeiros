@@ -8,6 +8,8 @@ import { AssetInfos } from "../interfaces/ItemInterface";
 
 function AssetsView() {
   const [assetsInfos, setAssetsInfos] = React.useState<AssetInfos[]>([]);
+  const [openDialog, setOpenDialog] = React.useState<boolean>(false);
+
   const { selectedAssets } = React.useContext(SelectedAssetsContext);
 
   function loadFakeAssetsInfos(assetNames: string[]) {
@@ -24,6 +26,7 @@ function AssetsView() {
     const assetsNames = selectedAssets.map((asset) => asset.name);
     const filteredAssetsInfos = loadFakeAssetsInfos(assetsNames);
     setAssetsInfos(filteredAssetsInfos);
+    setOpenDialog(true);
   }
 
   return (
@@ -31,7 +34,11 @@ function AssetsView() {
       <h2 className="text-2xl font-semibold">Ativos selecionados</h2>
       <AssetsList />
       <Button name={"Consultar"} onClick={handleClick} />
-      <AssetsInfosList assetsInfos={assetsInfos} />
+      <AssetsInfosList
+        assetsInfos={assetsInfos}
+        opened={openDialog}
+        setOpened={setOpenDialog}
+      />
     </div>
   );
 }
