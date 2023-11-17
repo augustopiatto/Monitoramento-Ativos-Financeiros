@@ -4,6 +4,7 @@ import { SelectedAssetInterface } from "../interfaces/ItemInterface";
 type SelectedAssetsContextType = {
   selectedAssets: SelectedAssetInterface[];
   setSelectedAssets: (assets: SelectedAssetInterface[]) => void;
+  removeAsset: (asset: SelectedAssetInterface) => void;
 };
 
 export const SelectedAssetsContext =
@@ -20,9 +21,16 @@ export const SelectedAssetsStorage = ({
     SelectedAssetInterface[]
   >([]);
 
+  function removeAsset(asset: SelectedAssetInterface) {
+    const filteredAssets = selectedAssets.filter(
+      (selectedAsset) => selectedAsset.name != asset.name
+    );
+    setSelectedAssets(filteredAssets);
+  }
+
   return (
     <SelectedAssetsContext.Provider
-      value={{ selectedAssets, setSelectedAssets }}
+      value={{ selectedAssets, setSelectedAssets, removeAsset }}
     >
       {children}
     </SelectedAssetsContext.Provider>

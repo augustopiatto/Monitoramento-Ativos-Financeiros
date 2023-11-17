@@ -1,16 +1,16 @@
-import AssetInterface from "../../interfaces/ItemInterface";
+import { AssetInterface } from "../../interfaces/ItemInterface";
 
 interface SelectInterface {
   items: AssetInterface[];
   name: string;
   placeholder: string;
-  setValue: (value: number) => void;
+  setValue: (value: string) => void;
 }
 
 function Select({ items, name, placeholder, setValue }: SelectInterface) {
-  function handleChange(event: Event) {
+  function handleChange(event: React.ChangeEvent<HTMLSelectElement>) {
     if (event && event.target) {
-      setValue(Number((event.target as HTMLButtonElement).value));
+      setValue(event.target.value);
     }
   }
 
@@ -25,7 +25,7 @@ function Select({ items, name, placeholder, setValue }: SelectInterface) {
         name={name}
         defaultValue="default"
         placeholder={placeholder}
-        onChange={() => handleChange}
+        onChange={(event) => handleChange(event)}
       >
         <option value="default" hidden>
           {placeholder}
@@ -33,7 +33,7 @@ function Select({ items, name, placeholder, setValue }: SelectInterface) {
         {items &&
           items.length &&
           items.map((item) => (
-            <option value={item.id} key={item.id}>
+            <option value={item.name} key={item.name}>
               {item.name}
             </option>
           ))}

@@ -11,7 +11,7 @@ export default {
         bw: "#C0AD9B",
         g1: "#8D999E",
       },
-      maxHeight: {
+      height: {
         assetslist: "calc(100vh - 30%)",
       },
     },

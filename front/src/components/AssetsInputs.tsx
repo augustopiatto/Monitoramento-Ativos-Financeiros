@@ -8,33 +8,34 @@ import {
 } from "../interfaces/ItemInterface";
 import Button from "./html_components/Button";
 import Spacer from "./Spacer";
-import { assetsFromURL, selectedAssets } from "../apimock/endpoints";
+import { assetsFromURL, selectedAssetsFromURL } from "../apimock/endpoints";
 import { SelectedAssetsContext } from "../contexts/SelectedAssetsContext";
 
 function AssetsInputs() {
-  const [peridiocity, setPeridiocity] = React.useState<number>(0);
-  const [maxValue, setMaxValue] = React.useState<number>(0);
-  const [minValue, setMinValue] = React.useState<number>(0);
+  const [peridiocity, setPeridiocity] = React.useState<number | null>(null);
+  const [maxValue, setMaxValue] = React.useState<number | null>(null);
+  const [minValue, setMinValue] = React.useState<number | null>(null);
   const [assetsItems, setAssetsItems] = React.useState<AssetInterface[]>([]);
-  const [asset, setAsset] = React.useState<number | null>(null);
+  const [assetName, setAssetName] = React.useState<string>("");
 
-  const { setSelectedAssets } = React.useContext(SelectedAssetsContext);
+  const { selectedAssets, setSelectedAssets } = React.useContext(
+    SelectedAssetsContext
+  );
 
   function filterNotSelectedAssets(
-    assetsFromURL: AssetInterface[],
+    allAssets: AssetInterface[],
     selectedAssets: SelectedAssetInterface[]
   ) {
     const selectedAssetsNames = selectedAssets.map((asset) => asset.name);
-    const filteredAssets = assetsFromURL.filter(
+    const filteredAssets = allAssets.filter(
       (asset) => !selectedAssetsNames.includes(asset.name)
     );
-    console.log(filteredAssets);
     setAssetsItems(filteredAssets);
   }
 
   function loadFakeAssets() {
-    setSelectedAssets(selectedAssets);
-    filterNotSelectedAssets(assetsFromURL, selectedAssets);
+    setSelectedAssets(selectedAssetsFromURL);
+    filterNotSelectedAssets(assetsFromURL, selectedAssetsFromURL);
   }
 
   // async function loadAssets() {
@@ -48,8 +49,24 @@ function AssetsInputs() {
   //   setAssetsItems(filteredAssets);
   // }
 
+  function resetInputs() {
+    setAssetName("");
+    setPeridiocity(null);
+    setMaxValue(null);
+    setMinValue(null);
+  }
+
   function handleClick() {
-    console.log("clicou");
+    const newAsset = {
+      name: assetName,
+      periodicity: peridiocity,
+      max_value: maxValue,
+      min_value: minValue,
+    };
+    const newSelectedAssets = [...selectedAssets, newAsset];
+    setSelectedAssets(newSelectedAssets);
+    filterNotSelectedAssets(assetsFromURL, newSelectedAssets);
+    resetInputs();
   }
 
   React.useEffect(() => {
@@ -62,7 +79,7 @@ function AssetsInputs() {
       <Select
         name={"Ativos"}
         placeholder={"Escolha o ativo"}
-        setValue={setAsset}
+        setValue={setAssetName}
         items={assetsItems}
       />
       <TextInput
