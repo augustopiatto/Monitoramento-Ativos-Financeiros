@@ -1,5 +1,5 @@
 from back.template.services import asset_svc
-from back.template.forms.assets_forms import AssetForm
+from back.template.forms.asset_forms import AssetForm
 from back.template.models import Asset
 
 def test_get_assets(db):

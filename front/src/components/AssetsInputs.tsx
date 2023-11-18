@@ -12,6 +12,7 @@ import {
   assetsFromURL,
   selectedAssetsFromPostgres,
 } from "../apimock/endpoints";
+import api from "../api/api";
 import { SelectedAssetsContext } from "../contexts/SelectedAssetsContext";
 
 function AssetsInputs() {
@@ -36,21 +37,22 @@ function AssetsInputs() {
     setAssetsItems(filteredAssets);
   }
 
-  function loadFakeAssets() {
-    setSelectedAssets(selectedAssetsFromPostgres);
-    filterNotSelectedAssets(assetsFromURL, selectedAssetsFromPostgres);
-  }
-
-  // async function loadAssets() {
-  //   // Deixar chamada em paralelo
-  //   const responseURL = await fetch("URL do site");
-  //   const jsonURL = await responseURL.json();
-  //   const responseSelected = await fetch("URL interna");
-  //   const jsonSelected = await responseSelected.json();
-  //   setSelectedAssets(jsonSelected);
-  //   const filteredAssets = filterNotSelectedAssets(jsonURL, jsonSelected)
-  //   setAssetsItems(filteredAssets);
+  // function loadFakeAssets() {
+  //   setSelectedAssets(selectedAssetsFromPostgres);
+  //   filterNotSelectedAssets(assetsFromURL, selectedAssetsFromPostgres);
   // }
+
+  async function loadAssets() {
+    // Deixar chamada em paralelo
+    // const responseURL = await fetch("URL do site");
+    // const jsonURL = await responseURL.json();
+    const responseSelected = await api.getAssets({});
+    const jsonSelected = await responseSelected.json();
+    console.log(jsonSelected);
+    // setSelectedAssets(jsonSelected);
+    // const filteredAssets = filterNotSelectedAssets(jsonURL, jsonSelected)
+    // setAssetsItems(filteredAssets);
+  }
 
   function resetInputs() {
     setAssetName("");
@@ -73,8 +75,8 @@ function AssetsInputs() {
   }
 
   React.useEffect(() => {
-    // loadAssets()
-    loadFakeAssets();
+    loadAssets();
+    // loadFakeAssets();
   }, []);
 
   return (
