@@ -1,9 +1,9 @@
-from back.template.views import asset_views
-from back.template.models import Asset
+from back.myapp.views import asset_views
+from back.myapp.models import Asset
 
 
 def test_post_student_grade_view(db, rf, mocker):
-    mocker.patch("back.template.services.asset_svc.get_assets", return_value=[])
+    mocker.patch("back.myapp.services.asset_svc.get_assets", return_value=[])
     asset = Asset.objects.create(name="test")
     request = rf.get(
         "api/asset/",

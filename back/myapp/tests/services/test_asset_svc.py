@@ -1,6 +1,6 @@
-from back.template.services import asset_svc
-from back.template.forms.asset_forms import AssetForm
-from back.template.models import Asset
+from back.myapp.services import asset_svc
+from back.myapp.forms.asset_forms import AssetForm
+from back.myapp.models import Asset
 
 def test_get_assets(db):
     asset = Asset.objects.create(name="test")
