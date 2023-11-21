@@ -1,5 +1,7 @@
 from pydantic import BaseModel
+from typing import Optional
 
 
 class AssetForm(BaseModel):
-    name: str
+    id: Optional[int]
+    name: Optional[str]

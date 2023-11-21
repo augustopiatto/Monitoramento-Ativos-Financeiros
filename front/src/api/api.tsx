@@ -13,7 +13,7 @@ const get = (url: string, params: unknown) => {
 // };
 
 const api = {
-  getAssets(params: { id?: number; name?: string }) {
+  getSelectedAssets(params?: { id?: number; name?: string }) {
     return get("assets/", params).then((response) => response.data);
   },
 };

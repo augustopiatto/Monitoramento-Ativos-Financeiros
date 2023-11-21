@@ -8,10 +8,7 @@ import {
 } from "../interfaces/ItemInterface";
 import Button from "./html_components/Button";
 import Spacer from "./ui_components/Spacer";
-import {
-  assetsFromURL,
-  selectedAssetsFromPostgres,
-} from "../apimock/endpoints";
+import { assetsFromURL, selectedAssetsFromPostgres } from "../apimock/apimock";
 import api from "../api/api";
 import { SelectedAssetsContext } from "../contexts/SelectedAssetsContext";
 
@@ -46,9 +43,8 @@ function AssetsInputs() {
     // Deixar chamada em paralelo
     // const responseURL = await fetch("URL do site");
     // const jsonURL = await responseURL.json();
-    const responseSelected = await api.getAssets({});
-    const jsonSelected = await responseSelected.json();
-    console.log(jsonSelected);
+    const responseSelected = await api.getSelectedAssets();
+    console.log(responseSelected);
     // setSelectedAssets(jsonSelected);
     // const filteredAssets = filterNotSelectedAssets(jsonURL, jsonSelected)
     // setAssetsItems(filteredAssets);

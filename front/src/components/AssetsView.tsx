@@ -3,7 +3,7 @@ import { SelectedAssetsContext } from "../contexts/SelectedAssetsContext";
 import AssetsInfosList from "./AssetsInfosList";
 import AssetsList from "./AssetsList";
 import Button from "./html_components/Button";
-import { assetInfosFromPostgres } from "../apimock/endpoints";
+import { assetInfosFromPostgres } from "../apimock/apimock";
 import { AssetInfos } from "../interfaces/ItemInterface";
 
 function AssetsView() {
