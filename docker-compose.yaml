@@ -31,11 +31,8 @@ services:
   front:
     build:
       context: ./front
-    command: npm run dev
     ports:
       - "5173:5173"
-    volumes:
-      - ./front:/front
 
   # nginx:
   #   build:
