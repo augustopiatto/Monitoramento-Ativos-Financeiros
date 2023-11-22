@@ -1,7 +1,5 @@
 FROM python:3.12
 WORKDIR /app/
-COPY . .
-ADD ./requirements.txt ./requirements.txt
-RUN pip install -r requirements.txt
-COPY ./entrypoint.sh .
-ENTRYPOINT ["sh", "/app/entrypoint.sh"]
+COPY . ./back/
+RUN pip install -r ./back/requirements.txt
+ENTRYPOINT ["sh", "/app/back/entrypoint.sh"]
