@@ -56,17 +56,20 @@ function AssetsInputs() {
     setMinValue("");
   }
 
-  function handleClick() {
-    const newAsset = {
-      name: assetName,
-      periodicity: peridiocity,
-      max_value: maxValue,
-      min_value: minValue,
-    };
-    const newSelectedAssets = [...selectedAssets, newAsset];
-    setSelectedAssets(newSelectedAssets);
-    filterNotSelectedAssets(assetsFromURL, newSelectedAssets);
-    resetInputs();
+  async function handleClick() {
+    if (assetName && peridiocity && maxValue && minValue) {
+      const newAsset = {
+        name: assetName,
+        periodicity: peridiocity,
+        max_value: maxValue,
+        min_value: minValue,
+      };
+      await api.postSelectedAsset(newAsset);
+      const newSelectedAssets = [...selectedAssets, newAsset];
+      setSelectedAssets(newSelectedAssets);
+      filterNotSelectedAssets(assetsFromURL, newSelectedAssets);
+      resetInputs();
+    }
   }
 
   React.useEffect(() => {

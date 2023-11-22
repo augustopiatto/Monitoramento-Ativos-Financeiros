@@ -2,6 +2,7 @@ from myapp.forms import asset_forms
 from myapp.services import asset_svc
 from myapp.serializers import asset_serializers
 from django.http import JsonResponse
+import json
 
 
 def asset(request):
@@ -13,4 +14,12 @@ def asset(request):
 
         return JsonResponse(assets_query, safe=False)
     elif request.method == "POST":
-        return
+        # params = asset_forms.Post.model_validate(json.loads(request.body)["params"])
+        # asset_svc.post_asset(
+        #     params.name, params.periodicity, params.max_value, params.min_value, params.user_id
+        # )
+        asset_svc.post_asset(
+            "5GTK11", 1, 3, 2, 1
+        )
+
+        return JsonResponse({}, safe=False)
