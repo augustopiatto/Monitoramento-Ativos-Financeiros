@@ -13,12 +13,12 @@ services:
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
 
   back:
-    build: .
-    command: "python manage.py migrate && python manage.py runserver"
-    volumes:
-      - ./back:/back
+    build:
+      context: ./back
     ports:
       - "8000:8000"
+    volumes:
+      - ./back:/back
     environment:
       DATABASE_HOST: db
       DATABASE_NAME: ${DATABASE_NAME}
@@ -27,16 +27,26 @@ services:
     depends_on:
       - db
 
-  # front:
-  #   build: .
-  #   ports:
-  #     - "5173:5173"
-  #   volumes:
-  #     - ./front:/front
-  #     - node_modules:/front/node_modules
-  #   depends_on:
-  #     - back
+  front:
+    build:
+      context: ./front
+    command: npm run dev
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./front:/front
+
+  nginx:
+    build:
+      context: ./nginx
+    volumes:
+      - ./back:/static
+      - ./front:/var/www/frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - back
+      - front
 
 volumes:
   db-data:
-  node_modules:

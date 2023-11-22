@@ -8,7 +8,7 @@ import {
 } from "../interfaces/ItemInterface";
 import Button from "./html_components/Button";
 import Spacer from "./ui_components/Spacer";
-import { assetsFromURL, selectedAssetsFromPostgres } from "../apimock/apimock";
+import { assetsFromURL } from "../apimock/apimock";
 import api from "../api/api";
 import { SelectedAssetsContext } from "../contexts/SelectedAssetsContext";
 
