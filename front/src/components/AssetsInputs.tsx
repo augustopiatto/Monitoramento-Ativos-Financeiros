@@ -44,7 +44,7 @@ function AssetsInputs() {
     // const responseURL = await fetch("URL do site");
     // const jsonURL = await responseURL.json();
     const responseSelected = await api.getSelectedAssets();
-    console.log(responseSelected);
+    console.log("api", responseSelected);
     // setSelectedAssets(jsonSelected);
     // const filteredAssets = filterNotSelectedAssets(jsonURL, jsonSelected)
     // setAssetsItems(filteredAssets);

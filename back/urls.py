@@ -21,6 +21,5 @@ from myapp.views import asset_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     # URLs do projeto
-    path('/'),
     path('api/assets/', asset_views.asset)
 ]
