@@ -1,0 +1,42 @@
+version: "3"
+
+services:
+  db:
+    image: postgres
+    volumes:
+      - db-data:/data/db
+    ports:
+      - "5432:5432"
+    environment:
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+
+  back:
+    build: .
+    command: "python manage.py migrate && python manage.py runserver"
+    volumes:
+      - ./back:/back
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_HOST: db
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+    depends_on:
+      - db
+
+  # front:
+  #   build: .
+  #   ports:
+  #     - "5173:5173"
+  #   volumes:
+  #     - ./front:/front
+  #     - node_modules:/front/node_modules
+  #   depends_on:
+  #     - back
+
+volumes:
+  db-data:
+  node_modules:
