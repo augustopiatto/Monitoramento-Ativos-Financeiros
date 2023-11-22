@@ -34,12 +34,12 @@ Para iniciar o projeto, siga os passos abaixo:
 
 O projeto inclui as seguintes tecnologias:
 
-- React: 
-- Typescript: 
-- Tailwind CSS: 
-- Django: 
-- Python: 
-- PostgreSQL: 
+- React:
+- Typescript:
+- Tailwind CSS:
+- Django:
+- Python:
+- PostgreSQL:
 - Docker: Container para a aplicação, para que haja uma padronização do projeto independente da máquina utilizada
 
 ### Funcionalidades
@@ -61,9 +61,9 @@ O projeto possui as seguintes funcionalidades:
 
 ## Referências
 
-### Scrapy
+### API Externa
 
-- 
+- [Listagem dos ativos - Brapi](https://brapi.dev/docs)
 
 ## Melhorias futuras
 

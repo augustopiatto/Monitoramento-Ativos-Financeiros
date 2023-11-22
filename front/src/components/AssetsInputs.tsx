@@ -41,13 +41,12 @@ function AssetsInputs() {
 
   async function loadAssets() {
     // Deixar chamada em paralelo
-    // const responseURL = await fetch("URL do site");
-    // const jsonURL = await responseURL.json();
+    const responseURL = await api.getExternalAssets();
+    console.log(responseURL);
     const responseSelected = await api.getSelectedAssets();
-    console.log("api", responseSelected);
-    // setSelectedAssets(jsonSelected);
-    // const filteredAssets = filterNotSelectedAssets(jsonURL, jsonSelected)
-    // setAssetsItems(filteredAssets);
+    console.log(responseSelected);
+    setSelectedAssets(responseSelected);
+    filterNotSelectedAssets(responseURL, responseSelected);
   }
 
   function resetInputs() {

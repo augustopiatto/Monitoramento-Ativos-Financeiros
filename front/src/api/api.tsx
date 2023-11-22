@@ -16,6 +16,11 @@ const api = {
   getSelectedAssets(params?: { id?: number; name?: string }) {
     return get("assets/", params).then((response) => response.data);
   },
+  getExternalAssets(params?: { asset?: string }) {
+    return get("external_assets/list", params).then(
+      (response) => response.data
+    );
+  },
 };
 
 export default api;

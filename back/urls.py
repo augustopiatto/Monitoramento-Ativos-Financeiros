@@ -17,9 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from myapp.views import asset_views
+from myapp.views import external_asset_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     # URLs do projeto
-    path('api/assets/', asset_views.asset)
+    path('api/assets/', asset_views.asset),
+    # URLs externas
+    path('api/external_assets/list', external_asset_views.asset_list),
 ]
