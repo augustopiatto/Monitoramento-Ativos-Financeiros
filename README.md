@@ -19,7 +19,8 @@ O objetivo é permitir que o usuário consiga ter maior controle dos seus ativos
 Para iniciar o projeto, siga os passos abaixo:
 
 - Clone o repositório em sua máquina local.
-- Rode o comando `docker compose up --build`
+- Rode o comando `npm run build` dentro da pasta `/front` sempre que houver uma mudança para ser refletida no servidor.
+- Rode o comando `docker compose up --build` na pasta raiz.
 
 ## Estrutura de pasta
 
