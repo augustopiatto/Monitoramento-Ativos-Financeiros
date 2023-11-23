@@ -16,13 +16,13 @@ def post_asset(name, periodicity, max_value, min_value, user_id):
     try:
         Asset.objects.get(name=name)
     except ObjectDoesNotExist:
-        Asset.objects.create(
+        asset = Asset.objects.create(
             name=name,
             periodicity=periodicity,
             max_value=max_value,
             min_value=min_value,
-            user_id=user_id
         )
+        asset.user_id.set(user_id)
         return 
 
     raise ValidationError("O ativo já está cadastrado")

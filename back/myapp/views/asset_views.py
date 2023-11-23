@@ -3,8 +3,10 @@ from myapp.services import asset_svc
 from myapp.serializers import asset_serializers
 from django.http import JsonResponse
 import json
+from django.views.decorators.csrf import csrf_exempt
 
 
+@csrf_exempt
 def asset(request):
     if request.method == "GET":
         print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
