@@ -9,7 +9,6 @@ from django.views.decorators.csrf import csrf_exempt
 @csrf_exempt
 def asset(request):
     if request.method == "GET":
-        print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
         # filtered_assets = asset_forms.AssetForm.model_validate(request.GET.dict())
         assets_query = asset_svc.get_assets()
         # assets = asset_serializers.get_assets(assets_query)
