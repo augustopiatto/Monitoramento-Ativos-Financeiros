@@ -63,6 +63,9 @@ function AssetsInputs() {
         periodicity: peridiocity,
         max_value: maxValue,
         min_value: minValue,
+        // user_id fixo para este teste, mas se fosse em produção, faria uma requisição única e salvaria em cookie
+        // com cache, e consultaria a partir do cookie para salvar em um context sempre que o usuário acessasse a página
+        user_id: 1,
       };
       await api.postSelectedAsset(newAsset);
       const newSelectedAssets = [...selectedAssets, newAsset];

@@ -1,9 +1,8 @@
 from pydantic import BaseModel, field_validator
 from typing import Optional
-from datetime import datetime
 
 
-class AssetForm(BaseModel):
+class GetAssetForm(BaseModel):
     id: Optional[int]
     name: Optional[str]
 

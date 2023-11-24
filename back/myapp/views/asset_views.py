@@ -9,18 +9,15 @@ from django.views.decorators.csrf import csrf_exempt
 @csrf_exempt
 def asset(request):
     if request.method == "GET":
-        # filtered_assets = asset_forms.AssetForm.model_validate(request.GET.dict())
+        # filtered_assets = asset_forms.GetAssetForm.model_validate(request.GET.dict())
         assets_query = asset_svc.get_assets()
         # assets = asset_serializers.get_assets(assets_query)
 
         return JsonResponse(assets_query, safe=False)
     elif request.method == "POST":
-        # params = asset_forms.Post.model_validate(json.loads(request.body)["params"])
-        # asset_svc.post_asset(
-        #     params.name, params.periodicity, params.max_value, params.min_value, params.user_id
-        # )
+        params = asset_forms.PostAssetForm.model_validate(json.loads(request.body)["params"])
         asset_svc.post_asset(
-            "5GTK11", 1, 3, 2, 1
+            params.name, params.periodicity, params.max_value, params.min_value, params.user_id
         )
 
         return JsonResponse({}, safe=False)

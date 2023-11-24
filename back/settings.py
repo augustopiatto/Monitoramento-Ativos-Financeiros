@@ -12,16 +12,20 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+env = environ.Env()
+env.read_env(os.path.join(BASE_DIR, '.env'))
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -81,11 +85,11 @@ WSGI_APPLICATION = 'wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('POSTGRES_DB', 'db_name'),
-        'USER': os.getenv('POSTGRES_USER', 'db_user'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'db_password'),
-        'HOST': os.getenv('DATABASE_HOST', 'localhost'), 
-        'PORT': os.getenv('DATABASE_PORT', '5432'),
+        'NAME': env('POSTGRES_DB', default='db_name'),
+        'USER': env('POSTGRES_USER', default='db_user'),
+        'PASSWORD': env('POSTGRES_PASSWORD', default='db_password'),
+        'HOST': env('DATABASE_HOST', default='localhost'), 
+        'PORT': env('DATABASE_PORT', default='5432'),
     }
 }
 
@@ -141,4 +145,4 @@ CORS_ALLOWED_ORIGINS = [
 
 CORS_ORIGIN_ALLOW_ALL = True
 
-ASSETS_EXTERNAL_URL_API_KEY = os.getenv('API_KEY_BRAPI', '')
+ASSETS_EXTERNAL_URL_API_KEY = env('API_KEY_BRAPI', default='')

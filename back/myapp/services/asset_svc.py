@@ -22,7 +22,7 @@ def post_asset(name, periodicity, max_value, min_value, user_id):
             max_value=max_value,
             min_value=min_value,
         )
-        asset.user_id.set(user_id)
+        asset.user_id.add(user_id)
         return 
 
     raise ValidationError("O ativo já está cadastrado")
