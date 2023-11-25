@@ -42,9 +42,7 @@ function AssetsInputs() {
   async function loadAssets() {
     // Deixar chamada em paralelo
     const responseURL = await api.getExternalAssets();
-    console.log(responseURL);
     const responseSelected = await api.getSelectedAssets();
-    console.log(responseSelected);
     setSelectedAssets(responseSelected);
     filterNotSelectedAssets(responseURL, responseSelected);
   }

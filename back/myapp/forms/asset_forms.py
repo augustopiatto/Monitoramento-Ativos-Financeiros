@@ -3,8 +3,8 @@ from typing import Optional
 
 
 class GetAssetForm(BaseModel):
-    id: Optional[int]
-    name: Optional[str]
+    id: Optional[int] = None
+    name: Optional[str] = None
 
 
 class PostAssetForm(BaseModel):

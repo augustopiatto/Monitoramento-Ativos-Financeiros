@@ -2,18 +2,28 @@ from myapp.models import Asset
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 
 
-def get_assets():
-    return [
-        { "name": "Petro", "periodicity": 120, "max_value": 200, "min_value": 100 },
-        { "name": "Enel", "periodicity": 170, "max_value": 220, "min_value": 80 },
-        { "name": "MWL", "periodicity": 60, "max_value": 50, "min_value": 10 },
-        { "name": "B2W", "periodicity": 400, "max_value": 2000, "min_value": 500 },
-        { "name": "Buser", "periodicity": 2000, "max_value": 145, "min_value": 140 },
-    ]
+def get_assets(id, name):
+    if id:
+        try:
+            asset = Asset.objects.get(id=id)
+            return [asset]
+        except ObjectDoesNotExist:
+            raise ValidationError("O ativo de id {id} não existe")
+    elif name:
+        try:
+            asset = Asset.objects.get(name=name)
+            return [asset]
+        except ObjectDoesNotExist:
+            raise ValidationError("O ativo de nome {name} não existe")
+    else:
+        assets = Asset.objects.all()
+        return assets
 
 
 def post_asset(name, periodicity, max_value, min_value, user_id):
     try:
+        # Desta forma não preciso colocar uma constraint "unique" no banco pra uma regra de negócio
+        # que ainda não entendo o suficiente
         Asset.objects.get(name=name)
     except ObjectDoesNotExist:
         asset = Asset.objects.create(
