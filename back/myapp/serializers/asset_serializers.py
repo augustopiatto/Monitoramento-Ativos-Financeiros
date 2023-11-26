@@ -1,4 +1,4 @@
-def get_assets(obj):
+def asset(obj):
     return {
         "id": obj.id,
         "name": obj.name,

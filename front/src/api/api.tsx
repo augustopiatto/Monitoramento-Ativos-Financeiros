@@ -1,4 +1,8 @@
 import axios from "axios";
+import {
+  ExternalAssetInterface,
+  SelectedAssetInterface,
+} from "../interfaces/ItemInterface";
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:8000/api/",
@@ -13,7 +17,10 @@ const post = (url: string, params: unknown) => {
 };
 
 const api = {
-  getSelectedAssets(params?: { id?: number; name?: string }) {
+  getSelectedAssets(params?: {
+    id?: number;
+    name?: string;
+  }): Promise<SelectedAssetInterface[]> {
     return get("assets/", params).then((response) => response.data);
   },
   postSelectedAsset(params: {
@@ -21,13 +28,15 @@ const api = {
     periodicity: number;
     max_value: number;
     min_value: number;
-  }) {
+  }): Promise<SelectedAssetInterface> {
     return post("assets/", params).then((response) => response.data);
   },
   postRemoveSelectedAsset(params: { id: number }) {
     return post("assets/remove", params).then((response) => response.data);
   },
-  getExternalAssets(params?: { asset?: string }) {
+  getExternalAssets(params?: {
+    asset?: string;
+  }): Promise<ExternalAssetInterface[]> {
     return get("external_assets/list", params).then(
       (response) => response.data
     );

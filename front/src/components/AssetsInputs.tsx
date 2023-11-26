@@ -2,37 +2,26 @@ import React from "react";
 import Input from "./html_components/Input";
 import MoneyInput from "./input_components/MoneyInput";
 import Select from "./html_components/Select";
-import {
-  AssetInterface,
-  SelectedAssetInterface,
-} from "../interfaces/ItemInterface";
 import Button from "./html_components/Button";
 import Spacer from "./ui_components/Spacer";
-import { assetsFromURL } from "../apimock/apimock";
 import api from "../api/api";
 import { SelectedAssetsContext } from "../contexts/SelectedAssetsContext";
+// import { assetsFromURL } from "../apimock/apimock";
 
 function AssetsInputs() {
   const [peridiocity, setPeridiocity] = React.useState<number | "">("");
   const [maxValue, setMaxValue] = React.useState<number | "">("");
   const [minValue, setMinValue] = React.useState<number | "">("");
-  const [assetsItems, setAssetsItems] = React.useState<AssetInterface[]>([]);
   const [assetName, setAssetName] = React.useState<string>("");
 
-  const { selectedAssets, setSelectedAssets } = React.useContext(
-    SelectedAssetsContext
-  );
-
-  function filterNotSelectedAssets(
-    allAssets: AssetInterface[],
-    selectedAssets: SelectedAssetInterface[]
-  ) {
-    const selectedAssetsNames = selectedAssets.map((asset) => asset.name);
-    const filteredAssets = allAssets.filter(
-      (asset) => !selectedAssetsNames.includes(asset.name)
-    );
-    setAssetsItems(filteredAssets);
-  }
+  const {
+    assetsItems,
+    responseExternal,
+    selectedAssets,
+    setSelectedAssets,
+    setResponseExternal,
+    filterNotSelectedAssets,
+  } = React.useContext(SelectedAssetsContext);
 
   // function loadFakeAssets() {
   //   setSelectedAssets(selectedAssetsFromPostgres);
@@ -42,6 +31,7 @@ function AssetsInputs() {
   async function loadAssets() {
     // Deixar chamada em paralelo
     const responseURL = await api.getExternalAssets();
+    setResponseExternal(responseURL);
     const responseSelected = await api.getSelectedAssets();
     setSelectedAssets(responseSelected);
     filterNotSelectedAssets(responseURL, responseSelected);
@@ -56,7 +46,7 @@ function AssetsInputs() {
 
   async function handleClick() {
     if (assetName && peridiocity && maxValue && minValue) {
-      const newAsset = {
+      const params = {
         name: assetName,
         periodicity: peridiocity,
         max_value: maxValue,
@@ -65,10 +55,10 @@ function AssetsInputs() {
         // com cache, e consultaria a partir do cookie para salvar em um context sempre que o usuário acessasse a página
         user_id: 1,
       };
-      await api.postSelectedAsset(newAsset);
+      const newAsset = await api.postSelectedAsset(params);
       const newSelectedAssets = [...selectedAssets, newAsset];
       setSelectedAssets(newSelectedAssets);
-      filterNotSelectedAssets(assetsFromURL, newSelectedAssets);
+      filterNotSelectedAssets(responseExternal, newSelectedAssets);
       resetInputs();
     }
   }

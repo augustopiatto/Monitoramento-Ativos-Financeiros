@@ -1,12 +1,21 @@
 import React, { ReactNode } from "react";
-import { SelectedAssetInterface } from "../interfaces/ItemInterface";
-import api from "../api/api";
-import { getErrorMessage } from "../helpers/helpers";
+import {
+  AssetInterface,
+  ExternalAssetInterface,
+  SelectedAssetInterface,
+} from "../interfaces/ItemInterface";
 
 type SelectedAssetsContextType = {
+  assetsItems: AssetInterface[];
   selectedAssets: SelectedAssetInterface[];
+  responseExternal: ExternalAssetInterface[];
+  setAssetsItems: (assets: AssetInterface[]) => void;
   setSelectedAssets: (assets: SelectedAssetInterface[]) => void;
-  removeAsset: (asset: SelectedAssetInterface) => void;
+  setResponseExternal: (assets: ExternalAssetInterface[]) => void;
+  filterNotSelectedAssets: (
+    externalAssets: ExternalAssetInterface[],
+    selectedAssets: SelectedAssetInterface[]
+  ) => void;
 };
 
 export const SelectedAssetsContext =
@@ -22,28 +31,33 @@ export const SelectedAssetsStorage = ({
   const [selectedAssets, setSelectedAssets] = React.useState<
     SelectedAssetInterface[]
   >([]);
+  const [responseExternal, setResponseExternal] = React.useState<
+    ExternalAssetInterface[]
+  >([]);
+  const [assetsItems, setAssetsItems] = React.useState<AssetInterface[]>([]);
 
-  async function removeAsset(asset: SelectedAssetInterface) {
-    const params = { id: asset.id };
-    try {
-      await api.postRemoveSelectedAsset(params);
-      const filteredAssets = selectedAssets.filter(
-        (selectedAsset) => selectedAsset.name != asset.name
-      );
-      setSelectedAssets(filteredAssets);
-    } catch (error) {
-      const message = getErrorMessage(error);
-      window.alert(`Não foi possível remover o ativo, ${message}`);
-    }
-    // tem que fazer a remoção do banco e da store juntos, se houver falha no banco, não
-    // faz da store
-    // repetir o processo de cima para adição também
-    // fazer alerta na tela do usuário usando window.alert pra avisar
+  function filterNotSelectedAssets(
+    responseExternal: ExternalAssetInterface[],
+    selectedAssets: SelectedAssetInterface[]
+  ) {
+    const selectedAssetsNames = selectedAssets.map((asset) => asset.name);
+    const filteredAssets = responseExternal.filter(
+      (asset) => !selectedAssetsNames.includes(asset.name)
+    );
+    setAssetsItems(filteredAssets);
   }
 
   return (
     <SelectedAssetsContext.Provider
-      value={{ selectedAssets, setSelectedAssets, removeAsset }}
+      value={{
+        assetsItems,
+        selectedAssets,
+        responseExternal,
+        setAssetsItems,
+        setSelectedAssets,
+        setResponseExternal,
+        filterNotSelectedAssets,
+      }}
     >
       {children}
     </SelectedAssetsContext.Provider>

@@ -10,6 +10,10 @@ export interface SelectedAssetInterface {
   min_value: number | "";
 }
 
+export interface ExternalAssetInterface {
+  name: string;
+}
+
 export interface AssetInfos {
   name: string;
   cur_value: number;

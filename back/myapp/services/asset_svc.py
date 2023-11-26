@@ -41,7 +41,8 @@ def post_asset(name, periodicity, max_value, min_value, user_id):
             min_value=min_value,
         )
         asset.user_id.add(user_id)
-        return 
+
+    return asset
 
 
 
