@@ -3,6 +3,7 @@ export interface AssetInterface {
 }
 
 export interface SelectedAssetInterface {
+  id: number;
   name: string;
   periodicity: number | "";
   max_value: number | "";

@@ -22,8 +22,10 @@ const api = {
     max_value: number;
     min_value: number;
   }) {
-    console.log(params);
     return post("assets/", params).then((response) => response.data);
+  },
+  postRemoveSelectedAsset(params: { id: number }) {
+    return post("assets/remove", params).then((response) => response.data);
   },
   getExternalAssets(params?: { asset?: string }) {
     return get("external_assets/list", params).then(

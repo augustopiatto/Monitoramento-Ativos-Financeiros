@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # URLs do projeto
     path('api/assets/', asset_views.asset),
+    path('api/assets/remove', asset_views.remove_asset),
     # URLs externas
     path('api/external_assets/list', external_asset_views.asset_list),
 ]

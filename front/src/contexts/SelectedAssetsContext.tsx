@@ -1,5 +1,7 @@
 import React, { ReactNode } from "react";
 import { SelectedAssetInterface } from "../interfaces/ItemInterface";
+import api from "../api/api";
+import { getErrorMessage } from "../helpers/helpers";
 
 type SelectedAssetsContextType = {
   selectedAssets: SelectedAssetInterface[];
@@ -21,11 +23,22 @@ export const SelectedAssetsStorage = ({
     SelectedAssetInterface[]
   >([]);
 
-  function removeAsset(asset: SelectedAssetInterface) {
-    const filteredAssets = selectedAssets.filter(
-      (selectedAsset) => selectedAsset.name != asset.name
-    );
-    setSelectedAssets(filteredAssets);
+  async function removeAsset(asset: SelectedAssetInterface) {
+    const params = { id: asset.id };
+    try {
+      await api.postRemoveSelectedAsset(params);
+      const filteredAssets = selectedAssets.filter(
+        (selectedAsset) => selectedAsset.name != asset.name
+      );
+      setSelectedAssets(filteredAssets);
+    } catch (error) {
+      const message = getErrorMessage(error);
+      window.alert(`Não foi possível remover o ativo, ${message}`);
+    }
+    // tem que fazer a remoção do banco e da store juntos, se houver falha no banco, não
+    // faz da store
+    // repetir o processo de cima para adição também
+    // fazer alerta na tela do usuário usando window.alert pra avisar
   }
 
   return (

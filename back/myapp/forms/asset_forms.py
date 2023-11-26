@@ -20,3 +20,7 @@ class PostAssetForm(BaseModel):
         if value < 0.01:
             raise ValueError("Valor tem que ser maior que 0.01")
         return value
+
+
+class RemoveAssetForm(BaseModel):
+    id: int

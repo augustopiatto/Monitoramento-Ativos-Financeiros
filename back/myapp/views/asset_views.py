@@ -22,3 +22,11 @@ def asset(request):
         )
 
         return JsonResponse({}, safe=False)
+
+
+@csrf_exempt
+def remove_asset(request):
+    params = asset_forms.RemoveAssetForm.model_validate(json.loads(request.body)["params"])
+    asset_svc.remove_asset(params.id)
+
+    return JsonResponse({}, safe=False)
