@@ -6,6 +6,8 @@ import Button from "./html_components/Button";
 import Spacer from "./ui_components/Spacer";
 import api from "../api/api";
 import { SelectedAssetsContext } from "../contexts/SelectedAssetsContext";
+import { getErrorMessage } from "../helpers/helpers";
+import { AxiosError } from "axios";
 // import { assetsFromURL } from "../apimock/apimock";
 
 function AssetsInputs() {
@@ -29,12 +31,27 @@ function AssetsInputs() {
   // }
 
   async function loadAssets() {
-    // Deixar chamada em paralelo
-    const responseURL = await api.getExternalAssets();
-    setResponseExternal(responseURL);
-    const responseSelected = await api.getSelectedAssets();
-    setSelectedAssets(responseSelected);
-    filterNotSelectedAssets(responseURL, responseSelected);
+    try {
+      const [responseURL, responseSelected] = await Promise.all([
+        api.getExternalAssets(),
+        api.getSelectedAssets(),
+      ]);
+      setResponseExternal(responseURL);
+      setSelectedAssets(responseSelected);
+      filterNotSelectedAssets(responseURL, responseSelected);
+    } catch (error) {
+      const message = getErrorMessage(error);
+      let failedURL = "";
+      if (error instanceof AxiosError) failedURL = error.request.responseURL;
+      let failedEndpoint = "";
+      if (failedURL.includes("api/assets/"))
+        failedEndpoint = "trazer os ativos selecionados";
+      else failedEndpoint = "trazer todos os ativos existentes";
+      window.alert(
+        `Houve um problema com o endpoint de ${failedEndpoint}. Erro ${message}`
+      );
+      return;
+    }
   }
 
   function resetInputs() {
@@ -55,16 +72,23 @@ function AssetsInputs() {
         // com cache, e consultaria a partir do cookie para salvar em um context sempre que o usuário acessasse a página
         user_id: 1,
       };
-      const newAsset = await api.postSelectedAsset(params);
-      const newSelectedAssets = [...selectedAssets, newAsset];
-      setSelectedAssets(newSelectedAssets);
-      filterNotSelectedAssets(responseExternal, newSelectedAssets);
+      try {
+        const newAsset = await api.postSelectedAsset(params);
+        const newSelectedAssets = [...selectedAssets, newAsset];
+        setSelectedAssets(newSelectedAssets);
+        filterNotSelectedAssets(responseExternal, newSelectedAssets);
+      } catch (error) {
+        const message = getErrorMessage(error);
+        window.alert(`Não foi possível adicionar o ativo, ${message}`);
+        return;
+      }
       resetInputs();
     }
   }
 
   React.useEffect(() => {
     loadAssets();
+    //: É a chamada de mock do front
     // loadFakeAssets();
   }, []);
 

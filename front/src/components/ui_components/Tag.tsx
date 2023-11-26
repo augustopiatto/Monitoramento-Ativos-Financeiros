@@ -23,16 +23,13 @@ function Tag({ asset }: TagInterface) {
     } catch (error) {
       const message = getErrorMessage(error);
       window.alert(`Não foi possível remover o ativo, ${message}`);
+      return;
     }
     const filteredAssets = selectedAssets.filter(
       (selectedAsset) => selectedAsset.name != asset.name
     );
     setSelectedAssets(filteredAssets);
     filterNotSelectedAssets(responseExternal, filteredAssets);
-    // tem que fazer a remoção do banco e da store juntos, se houver falha no banco, não
-    // faz da store
-    // repetir o processo de cima para adição também
-    // fazer alerta na tela do usuário usando window.alert pra avisar
   }
 
   return (
