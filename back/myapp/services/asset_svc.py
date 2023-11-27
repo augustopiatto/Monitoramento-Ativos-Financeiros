@@ -53,3 +53,9 @@ def remove_asset(id):
         asset.save(update_fields=["active"])
     except ObjectDoesNotExist:
         raise ValidationError("O ativo de id {id} não existe")
+
+
+def asset_price(ids):
+    assets = Asset.objects.filter(id__in=ids, cur_value__isnull=False)
+
+    return assets

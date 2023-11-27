@@ -1,5 +1,5 @@
 from pydantic import BaseModel, field_validator
-from typing import Optional
+from typing import Optional, List
 
 
 class GetAssetForm(BaseModel):
@@ -24,3 +24,7 @@ class PostAssetForm(BaseModel):
 
 class RemoveAssetForm(BaseModel):
     id: int
+
+
+class AssetPriceForm(BaseModel):
+    ids: List[int]

@@ -9,8 +9,8 @@ from django.views.decorators.csrf import csrf_exempt
 @csrf_exempt
 def asset(request):
     if request.method == "GET":
-        filtered_asset = asset_forms.GetAssetForm.model_validate(request.GET.dict())
-        assets_query = asset_svc.get_assets(filtered_asset.id, filtered_asset.name)
+        params = asset_forms.GetAssetForm.model_validate({**request.GET})
+        assets_query = asset_svc.get_assets(params.id, params.name)
         serialized_assets = [asset_serializers.asset(asset) for asset in assets_query]
 
         return JsonResponse(serialized_assets, safe=False)
@@ -31,3 +31,11 @@ def remove_asset(request):
     asset_svc.remove_asset(params.id)
 
     return JsonResponse({}, safe=False)
+
+def asset_price(request):
+    normalized_request = {"ids": {**request.GET}["ids[]"]}
+    params = asset_forms.AssetPriceForm.model_validate(normalized_request)
+    assets_query = asset_svc.asset_price(params.ids)
+    serialized_assets = [asset_serializers.asset_price(asset) for asset in assets_query]
+
+    return JsonResponse(serialized_assets, safe=False)

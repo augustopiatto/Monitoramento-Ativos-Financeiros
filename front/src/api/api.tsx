@@ -32,12 +32,15 @@ const api = {
     return post("assets/", params).then((response) => response.data);
   },
   postRemoveSelectedAsset(params: { id: number }) {
-    return post("assets/remove", params).then((response) => response.data);
+    return post("assets/remove/", params).then((response) => response.data);
+  },
+  getAssetsPrice(params: { ids: number[] }) {
+    return get("assets/price/", params).then((response) => response.data);
   },
   getExternalAssets(params?: {
     asset?: string;
   }): Promise<ExternalAssetInterface[]> {
-    return get("external_assets/list", params).then(
+    return get("external_assets/list/", params).then(
       (response) => response.data
     );
   },
