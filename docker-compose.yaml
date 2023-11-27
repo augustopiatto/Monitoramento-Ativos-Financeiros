@@ -14,34 +14,33 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
 
-  # back:
-  #   restart: always
-  #   build:
-  #     context: ./back
-  #   ports:
-  #     - "8000:8000"
-  #   volumes:
-  #     - ./back:/app
-  #   command: gunicorn --reload wsgi --bind 0.0.0.0:8000 && python manage.py migrate
-  #   env_file: .env
-  #   environment:
-  #     DATABASE_HOST: db
-  #     POSTGRES_DB: ${POSTGRES_DB}
-  #     POSTGRES_USER: ${POSTGRES_USER}
-  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-  #   depends_on:
-  #     - db
+  back:
+    restart: always
+    build:
+      context: ./back
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./back:/app
+    env_file: .env
+    environment:
+      DATABASE_HOST: db
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    depends_on:
+      - db
 
-  # nginx:
-  #   restart: always
-  #   build:
-  #     context: ./nginx
-  #   volumes:
-  #     - ./front/dist/:/var/www/frontend
-  #   ports:
-  #     - "8080:80"
-  #   depends_on:
-  #     - back
+  nginx:
+    restart: always
+    build:
+      context: ./nginx
+    volumes:
+      - ./front/dist/:/var/www/frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - back
 
 volumes:
   db-data:
