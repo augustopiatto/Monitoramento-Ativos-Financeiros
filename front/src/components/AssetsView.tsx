@@ -3,8 +3,8 @@ import { SelectedAssetsContext } from "../contexts/SelectedAssetsContext";
 import AssetsInfosList from "./AssetsInfosList";
 import AssetsList from "./AssetsList";
 import Button from "./html_components/Button";
-import { assetInfosFromPostgres } from "../apimock/apimock";
 import { AssetInfos } from "../interfaces/ItemInterface";
+// import { assetInfosFromPostgres } from "../apimock/apimock";
 
 function AssetsView() {
   const [assetsInfos, setAssetsInfos] = React.useState<AssetInfos[]>([]);
@@ -12,19 +12,31 @@ function AssetsView() {
 
   const { selectedAssets } = React.useContext(SelectedAssetsContext);
 
-  function loadFakeAssetsInfos(assetNames: string[]) {
-    return assetInfosFromPostgres.filter((asset) =>
-      assetNames.includes(asset.name)
-    );
+  // : É a chamada de mock do front
+  // function loadAssetsInfos(assetNames: string[]) {
+  //   return assetInfosFromPostgres.filter((asset) =>
+  //     assetNames.includes(asset.name)
+  //   );
+  // }
+
+  function loadAssetsInfos() {
+    return selectedAssets.reduce((result, asset) => {
+      if (asset.cur_value) {
+        result.push({ name: asset.name, cur_value: asset.cur_value });
+      }
+      return result;
+    }, [] as AssetInfos[]);
   }
 
-  // function loadAssetsInfos(assetNames) {}
-
   function handleClick() {
-    // loadFakeAssetsInfos()
-    // loadAssetsInfos()
-    const assetsNames = selectedAssets.map((asset) => asset.name);
-    const filteredAssetsInfos = loadFakeAssetsInfos(assetsNames);
+    // : É a chamada de mock do front
+    // const assetsNames = selectedAssets.map((asset) => asset.name);
+    // const filteredAssetsInfos = loadFakeAssetsInfos(assetsNames);
+
+    // Vou fazer chamada de API aqui para trazer todos os ativos que tiverem valor
+    // Se eu usasse algum método de atualizar a tela, iria ficar batendo na API externa
+    // o tempo todo, o que pode ser custoso
+    const filteredAssetsInfos = loadAssetsInfos();
     setAssetsInfos(filteredAssetsInfos);
     setOpenDialog(true);
   }
