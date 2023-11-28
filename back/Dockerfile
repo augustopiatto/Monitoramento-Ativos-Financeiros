@@ -12,10 +12,13 @@ RUN apt-get -y install cron
 
 RUN mkdir -p /commands
 COPY ./myapp/management/commands/asset_price.py /commands/asset_price.py
+RUN chmod 755 /commands/asset_price.py
 
 COPY ./start.sh /etc/start.sh
 RUN chmod 755 /etc/start.sh
 
 COPY ./crons /etc/cron.d/crons
+COPY ./myapp/crons/asset_price.sh /etc/cron.d/asset_price.sh
+RUN chmod 755 /etc/cron.d/asset_price.sh
 
 CMD ["/etc/start.sh"]
