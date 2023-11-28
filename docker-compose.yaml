@@ -16,7 +16,7 @@ services:
   back:
     restart: always
     build:
-      context: ./back
+      context: .
     ports:
       - "8000:8000"
     volumes:
