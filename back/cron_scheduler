@@ -1,2 +1,1 @@
-* * * * * /bin/chmod 544 /etc/cron.d/cron_shells/asset_price.sh && /etc/cron.d/cron_shells/asset_price.sh > /app/cron.log 2>&1
-* * * * * /bin/echo hello > /proc/1/fd/1 2>/proc/1/fd/2
+* * * * * /bin/chmod 544 /etc/cron.d/cron_shells/asset_price.sh && /etc/cron.d/cron_shells/asset_price.sh > /proc/1/fd/1 2>/proc/1/fd/2
