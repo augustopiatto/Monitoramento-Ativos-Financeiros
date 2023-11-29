@@ -6,6 +6,7 @@ from myapp.serializers import funnel_serializers
 import json
 
 
+@csrf_exempt
 def funnel(request):
     if request.method == "GET":
         params = funnel_forms.GetFunnelForm.model_validate({**request.GET})

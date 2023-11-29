@@ -31,7 +31,7 @@ const api = {
   }): Promise<FunnelInterface> {
     return post("funnels/", params).then((response) => response.data);
   },
-  postRemoveFunnel(params: { id: number }) {
+  postRemoveFunnel(params: { id: number }): Promise<void> {
     return post("funnels/remove/", params).then((response) => response.data);
   },
 };

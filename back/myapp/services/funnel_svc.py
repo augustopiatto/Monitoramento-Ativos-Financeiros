@@ -1,4 +1,4 @@
-from myapp.models import PriceFunnel
+from myapp.models import Asset, PriceFunnel
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 
 
@@ -21,28 +21,30 @@ def get_funnels(id, name):
     
 
 def post_funnel(name, periodicity, max_value, min_value, user_id):
+    asset = Asset.objects.get(name=name)
     try:
         # Desta forma não preciso colocar uma constraint "unique" no banco pra uma regra de negócio
         # que ainda não entendo o suficiente
-        asset = PriceFunnel.objects.get(name=name)
-        if asset.active:
-            raise ValidationError("O ativo já está cadastrado")
+        funnel = asset.pricefunnel_set.get(user_id=user_id)
+
+        if funnel.active:
+            raise ValidationError("O funil de preços já está cadastrado")
         else:
-            asset.active = True
-            asset.periodicity = periodicity
-            asset.max_value = max_value
-            asset.min_value = min_value
-            asset.save(update_fields=["active", "periodicity", "max_value", "min_value"])
+            funnel.active = True
+            funnel.periodicity = periodicity
+            funnel.max_value = max_value
+            funnel.min_value = min_value
+            funnel.save(update_fields=["active", "periodicity", "max_value", "min_value"])
     except ObjectDoesNotExist:
-        asset = PriceFunnel.objects.create(
-            name=name,
+        funnel = PriceFunnel.objects.create(
             periodicity=periodicity,
             max_value=max_value,
             min_value=min_value,
+            asset_id=asset.id,
+            user_id=user_id,
         )
-        asset.user_id.add(user_id)
 
-    return asset
+    return funnel
 
 
 def remove_funnel(id):
