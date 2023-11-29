@@ -1,7 +1,7 @@
 import React from "react";
-import { SelectedAssetsContext } from "../contexts/SelectedAssetsContext";
+import { FunnelsContext } from "../contexts/FunnelsContext";
 import AssetsPricesList from "./AssetsPricesList";
-import AssetsList from "./AssetsList";
+import AssetsList from "./FunnelsList";
 import Button from "./html_components/Button";
 import { AssetInterface } from "../interfaces/ItemInterface";
 import api from "../api/api";
@@ -11,7 +11,7 @@ function AssetsView() {
   const [assetsPrices, setAssetsPrices] = React.useState<AssetInterface[]>([]);
   const [openDialog, setOpenDialog] = React.useState<boolean>(false);
 
-  const { selectedAssets } = React.useContext(SelectedAssetsContext);
+  const { funnels } = React.useContext(FunnelsContext);
 
   // : É a chamada de mock do front
   // function loadFakeAssetsInfos(assetNames: string[]) {
@@ -22,13 +22,13 @@ function AssetsView() {
 
   async function handleClick() {
     // : É a chamada de mock do front
-    // const assetsNames = selectedAssets.map((asset) => asset.name);
+    // const assetsNames = funnels.map((asset) => asset.name);
     // const filteredAssetsInfos = loadFakeAssetsInfos(assetsNames);
 
     // Vou fazer chamada de API aqui para trazer todos os ativos que tiverem valor
     // Se eu usasse algum método de atualizar a tela, iria ficar batendo na API externa
     // o tempo todo, o que pode ser custoso
-    const selectedAssetsIds = selectedAssets.map((asset) => asset.id);
+    const selectedAssetsIds = funnels.map((funnel) => funnel.id);
     const params = {
       ids: selectedAssetsIds,
     };

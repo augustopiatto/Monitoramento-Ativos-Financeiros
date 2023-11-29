@@ -1,10 +1,10 @@
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "./styles/global.css";
-import { SelectedAssetsStorage } from "./contexts/SelectedAssetsContext.tsx";
+import { FunnelsContextStorage } from "./contexts/FunnelsContext.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <SelectedAssetsStorage>
+  <FunnelsContextStorage>
     <App />
-  </SelectedAssetsStorage>
+  </FunnelsContextStorage>
 );

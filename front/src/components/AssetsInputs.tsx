@@ -5,7 +5,7 @@ import Select from "./html_components/Select";
 import Button from "./html_components/Button";
 import Spacer from "./ui_components/Spacer";
 import api from "../api/api";
-import { SelectedAssetsContext } from "../contexts/SelectedAssetsContext";
+import { FunnelsContext } from "../contexts/FunnelsContext";
 import { getErrorMessage } from "../helpers/helpers";
 import { AxiosError } from "axios";
 // import { assetsFromURL } from "../apimock/apimock";
@@ -18,15 +18,15 @@ function AssetsInputs() {
 
   const {
     assetsItems,
-    responseExternal,
-    selectedAssets,
-    setSelectedAssets,
-    setResponseExternal,
+    allAssets,
+    funnels,
+    setFunnels,
+    setAllAssets,
     filterNotSelectedAssets,
-  } = React.useContext(SelectedAssetsContext);
+  } = React.useContext(FunnelsContext);
 
   // function loadFakeAssets() {
-  //   setSelectedAssets(selectedAssetsFromPostgres);
+  //   setFunnels(selectedAssetsFromPostgres);
   //   filterNotSelectedAssets(assetsFromURL, selectedAssetsFromPostgres);
   // }
 
@@ -36,8 +36,8 @@ function AssetsInputs() {
         api.getAssets(),
         api.getFunnels(),
       ]);
-      setResponseExternal(responseURL);
-      setSelectedAssets(responseSelected);
+      setAllAssets(responseURL);
+      setFunnels(responseSelected);
       filterNotSelectedAssets(responseURL, responseSelected);
     } catch (error) {
       const message = getErrorMessage(error);
@@ -74,9 +74,9 @@ function AssetsInputs() {
       };
       try {
         const newAsset = await api.postFunnel(params);
-        const newSelectedAssets = [...selectedAssets, newAsset];
-        setSelectedAssets(newSelectedAssets);
-        filterNotSelectedAssets(responseExternal, newSelectedAssets);
+        const newSelectedAssets = [...funnels, newAsset];
+        setFunnels(newSelectedAssets);
+        filterNotSelectedAssets(allAssets, newSelectedAssets);
       } catch (error) {
         const message = getErrorMessage(error);
         window.alert(`Não foi possível adicionar o ativo, ${message}`);
