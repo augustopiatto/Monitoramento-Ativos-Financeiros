@@ -13,6 +13,17 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
 
+  nginx:
+    restart: always
+    build:
+      context: ./nginx
+    volumes:
+      - ./front/dist/:/var/www/frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+
   back:
     restart: always
     build:
@@ -28,18 +39,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       SECRET_KEY: ${SECRET_KEY}
     depends_on:
-      - db
-
-  nginx:
-    restart: always
-    build:
-      context: ./nginx
-    volumes:
-      - ./front/dist/:/var/www/frontend
-    ports:
-      - "8080:80"
-    depends_on:
-      - back
+      - nginx
 
 volumes:
   db-data:

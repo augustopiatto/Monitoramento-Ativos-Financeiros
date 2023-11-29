@@ -18,11 +18,11 @@ export const assetsFromURL: AssetInterface[] = [
 ];
 
 export const selectedAssetsFromPostgres: SelectedAssetInterface[] = [
-  { name: "Petro", periodicity: 120, max_value: 200, min_value: 100 },
-  { name: "Enel", periodicity: 170, max_value: 220, min_value: 80 },
-  { name: "MWL", periodicity: 60, max_value: 50, min_value: 10 },
-  { name: "B2W", periodicity: 400, max_value: 2000, min_value: 500 },
-  { name: "Buser", periodicity: 2000, max_value: 145, min_value: 140 },
+  { id: 1, name: "Petro", periodicity: 120, max_value: 200, min_value: 100 },
+  { id: 2, name: "Enel", periodicity: 170, max_value: 220, min_value: 80 },
+  { id: 3, name: "MWL", periodicity: 60, max_value: 50, min_value: 10 },
+  { id: 4, name: "B2W", periodicity: 400, max_value: 2000, min_value: 500 },
+  { id: 5, name: "Buser", periodicity: 2000, max_value: 145, min_value: 140 },
 ];
 
 export const assetInfosFromPostgres: AssetInfos[] = [
