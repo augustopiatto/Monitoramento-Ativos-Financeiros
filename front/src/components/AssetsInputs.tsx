@@ -31,10 +31,11 @@ function AssetsInputs() {
   // }
 
   async function loadAssets() {
+    const funnelsParams = { user_id: 1 };
     try {
       const [responseURL, responseSelected] = await Promise.all([
         api.getAssets(),
-        api.getFunnels(),
+        api.getFunnels(funnelsParams),
       ]);
       setAllAssets(responseURL);
       setFunnels(responseSelected);

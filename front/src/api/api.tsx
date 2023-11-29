@@ -20,6 +20,7 @@ const api = {
   getFunnels(params?: {
     id?: number;
     name?: string;
+    user_id: number;
   }): Promise<FunnelInterface[]> {
     return get("funnels/", params).then((response) => response.data);
   },

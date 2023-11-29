@@ -5,6 +5,7 @@ from typing import Optional
 class GetFunnelForm(BaseModel):
     id: Optional[int] = None
     name: Optional[str] = None
+    user_id: int
 
 
 class PostFunnelForm(BaseModel):

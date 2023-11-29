@@ -2,7 +2,7 @@ from myapp.models import Asset, PriceFunnel
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 
 
-def get_funnels(id, name):
+def get_funnels(id, name, user_id):
     if id:
         try:
             funnel = PriceFunnel.objects.get(id=id)
@@ -16,7 +16,7 @@ def get_funnels(id, name):
         except ObjectDoesNotExist:
             raise ValidationError("O ativo de nome {name} não existe")
     else:
-        funnels = PriceFunnel.objects.filter(active=True)
+        funnels = PriceFunnel.objects.filter(user_id=user_id, active=True)
         return funnels
     
 

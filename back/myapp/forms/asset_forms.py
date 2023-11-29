@@ -1,6 +1,6 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional, List
 
 
 class AssetForm(BaseModel):
-    ids: Optional[List[int]] = None
+    ids: Optional[List[int]] = Field(default=None, alias="ids[]")

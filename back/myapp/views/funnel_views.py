@@ -9,8 +9,8 @@ import json
 @csrf_exempt
 def funnel(request):
     if request.method == "GET":
-        params = funnel_forms.GetFunnelForm.model_validate({**request.GET})
-        funnels_query = funnel_svc.get_funnels(params.id, params.name)
+        params = funnel_forms.GetFunnelForm.model_validate(request.GET.dict())
+        funnels_query = funnel_svc.get_funnels(params.id, params.name, params.user_id)
         serialized_funnels = [funnel_serializers.funnel(funnel) for funnel in funnels_query]
 
         return JsonResponse(serialized_funnels, safe=False)
