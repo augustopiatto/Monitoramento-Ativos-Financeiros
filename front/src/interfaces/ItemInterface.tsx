@@ -1,20 +1,13 @@
 export interface AssetInterface {
+  id: number;
   name: string;
+  cur_value: number;
 }
 
-export interface SelectedAssetInterface {
+export interface FunnelInterface {
   id: number;
   name: string;
   periodicity: number | "";
   max_value: number | "";
   min_value: number | "";
-}
-
-export interface ExternalAssetInterface {
-  name: string;
-}
-
-export interface AssetInfos {
-  name: string;
-  cur_value: number;
 }

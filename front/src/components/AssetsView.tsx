@@ -3,12 +3,12 @@ import { SelectedAssetsContext } from "../contexts/SelectedAssetsContext";
 import AssetsPricesList from "./AssetsPricesList";
 import AssetsList from "./AssetsList";
 import Button from "./html_components/Button";
-import { AssetInfos } from "../interfaces/ItemInterface";
+import { AssetInterface } from "../interfaces/ItemInterface";
 import api from "../api/api";
 // import { assetInfosFromPostgres } from "../apimock/apimock";
 
 function AssetsView() {
-  const [assetsPrices, setAssetsPrices] = React.useState<AssetInfos[]>([]);
+  const [assetsPrices, setAssetsPrices] = React.useState<AssetInterface[]>([]);
   const [openDialog, setOpenDialog] = React.useState<boolean>(false);
 
   const { selectedAssets } = React.useContext(SelectedAssetsContext);
@@ -32,7 +32,7 @@ function AssetsView() {
     const params = {
       ids: selectedAssetsIds,
     };
-    const filteredAssetsInfos = await api.getAssetsPrice(params);
+    const filteredAssetsInfos = await api.getAssets(params);
     setAssetsPrices(filteredAssetsInfos);
     setOpenDialog(true);
   }

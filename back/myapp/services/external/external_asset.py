@@ -24,6 +24,7 @@ def asset_list():
 
     return serialized_assets
 
+
 # Tentei fazer buscando somente os ativos que eu queria, mas o Brapi só tem essa opção no pago
 # def filtered_asset_list(asset_names_list):
 #     try:

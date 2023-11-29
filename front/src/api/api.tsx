@@ -1,8 +1,5 @@
 import axios from "axios";
-import {
-  ExternalAssetInterface,
-  SelectedAssetInterface,
-} from "../interfaces/ItemInterface";
+import { AssetInterface, FunnelInterface } from "../interfaces/ItemInterface";
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:8000/api/",
@@ -17,28 +14,25 @@ const post = (url: string, params: unknown) => {
 };
 
 const api = {
-  getSelectedAssets(params?: {
-    id?: number;
-    name?: string;
-  }): Promise<SelectedAssetInterface[]> {
+  getAssets(params?: { ids?: number[] }): Promise<AssetInterface[]> {
     return get("assets/", params).then((response) => response.data);
   },
-  postSelectedAsset(params: {
+  getFunnels(params?: {
+    id?: number;
+    name?: string;
+  }): Promise<FunnelInterface[]> {
+    return get("funnels/", params).then((response) => response.data);
+  },
+  postFunnel(params: {
     name: string;
     periodicity: number;
     max_value: number;
     min_value: number;
-  }): Promise<SelectedAssetInterface> {
-    return post("assets/", params).then((response) => response.data);
+  }): Promise<FunnelInterface> {
+    return post("funnels/", params).then((response) => response.data);
   },
-  postRemoveSelectedAsset(params: { id: number }) {
-    return post("assets/remove/", params).then((response) => response.data);
-  },
-  getAssetsPrice(params: { ids: number[] }) {
-    return get("assets/price/", params).then((response) => response.data);
-  },
-  getAssets(params?: { asset?: string }): Promise<ExternalAssetInterface[]> {
-    return get("assets/", params).then((response) => response.data);
+  postRemoveFunnel(params: { id: number }) {
+    return post("funnels/remove/", params).then((response) => response.data);
   },
 };
 

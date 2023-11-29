@@ -34,7 +34,7 @@ function AssetsInputs() {
     try {
       const [responseURL, responseSelected] = await Promise.all([
         api.getAssets(),
-        api.getSelectedAssets(),
+        api.getFunnels(),
       ]);
       setResponseExternal(responseURL);
       setSelectedAssets(responseSelected);
@@ -73,7 +73,7 @@ function AssetsInputs() {
         user_id: 1,
       };
       try {
-        const newAsset = await api.postSelectedAsset(params);
+        const newAsset = await api.postFunnel(params);
         const newSelectedAssets = [...selectedAssets, newAsset];
         setSelectedAssets(newSelectedAssets);
         filterNotSelectedAssets(responseExternal, newSelectedAssets);

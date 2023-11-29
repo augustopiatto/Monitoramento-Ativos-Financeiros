@@ -1,11 +1,11 @@
 import React from "react";
 import api from "../../api/api";
 import { getErrorMessage } from "../../helpers/helpers";
-import { SelectedAssetInterface } from "../../interfaces/ItemInterface";
+import { FunnelInterface } from "../../interfaces/ItemInterface";
 import { SelectedAssetsContext } from "../../contexts/SelectedAssetsContext";
 
 interface TagInterface {
-  asset: SelectedAssetInterface;
+  asset: FunnelInterface;
 }
 
 function Tag({ asset }: TagInterface) {
@@ -16,10 +16,10 @@ function Tag({ asset }: TagInterface) {
     filterNotSelectedAssets,
   } = React.useContext(SelectedAssetsContext);
 
-  async function removeAsset(asset: SelectedAssetInterface) {
+  async function removeAsset(asset: FunnelInterface) {
     const params = { id: asset.id };
     try {
-      await api.postRemoveSelectedAsset(params);
+      await api.postRemoveFunnel(params);
     } catch (error) {
       const message = getErrorMessage(error);
       window.alert(`Não foi possível remover o ativo, ${message}`);

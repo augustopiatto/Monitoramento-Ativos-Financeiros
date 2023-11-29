@@ -1,9 +1,9 @@
-import { AssetInfos } from "../interfaces/ItemInterface";
+import { AssetInterface } from "../interfaces/ItemInterface";
 import Dialog from "./ui_components/Dialog";
 import Divider from "./ui_components/Divider";
 
 interface AssetsPricesListInterface {
-  assetsPrices: AssetInfos[];
+  assetsPrices: AssetInterface[];
   opened: boolean;
   setOpened: (value: boolean) => void;
 }

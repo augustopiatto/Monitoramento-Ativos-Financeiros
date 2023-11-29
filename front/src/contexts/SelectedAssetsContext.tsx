@@ -1,20 +1,16 @@
 import React, { ReactNode } from "react";
-import {
-  AssetInterface,
-  ExternalAssetInterface,
-  SelectedAssetInterface,
-} from "../interfaces/ItemInterface";
+import { AssetInterface, FunnelInterface } from "../interfaces/ItemInterface";
 
 type SelectedAssetsContextType = {
   assetsItems: AssetInterface[];
-  selectedAssets: SelectedAssetInterface[];
-  responseExternal: ExternalAssetInterface[];
+  selectedAssets: FunnelInterface[];
+  responseExternal: AssetInterface[];
   setAssetsItems: (assets: AssetInterface[]) => void;
-  setSelectedAssets: (assets: SelectedAssetInterface[]) => void;
-  setResponseExternal: (assets: ExternalAssetInterface[]) => void;
+  setSelectedAssets: (assets: FunnelInterface[]) => void;
+  setResponseExternal: (assets: AssetInterface[]) => void;
   filterNotSelectedAssets: (
-    externalAssets: ExternalAssetInterface[],
-    selectedAssets: SelectedAssetInterface[]
+    externalAssets: AssetInterface[],
+    selectedAssets: FunnelInterface[]
   ) => void;
 };
 
@@ -28,17 +24,17 @@ export const SelectedAssetsStorage = ({
 }: {
   children: ReactNode;
 }) => {
-  const [selectedAssets, setSelectedAssets] = React.useState<
-    SelectedAssetInterface[]
-  >([]);
+  const [selectedAssets, setSelectedAssets] = React.useState<FunnelInterface[]>(
+    []
+  );
   const [responseExternal, setResponseExternal] = React.useState<
-    ExternalAssetInterface[]
+    AssetInterface[]
   >([]);
   const [assetsItems, setAssetsItems] = React.useState<AssetInterface[]>([]);
 
   function filterNotSelectedAssets(
-    responseExternal: ExternalAssetInterface[],
-    selectedAssets: SelectedAssetInterface[]
+    responseExternal: AssetInterface[],
+    selectedAssets: FunnelInterface[]
   ) {
     const selectedAssetsNames = selectedAssets.map((asset) => asset.name);
     const filteredAssets = responseExternal.filter(
