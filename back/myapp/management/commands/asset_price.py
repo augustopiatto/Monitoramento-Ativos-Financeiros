@@ -6,7 +6,8 @@ from myapp.services.external_asset_svc import asset_list
 
 
 BASE_URL = "https://brapi.dev/api/"
-assets_to_email = []
+assets_to_email = {"buy": [], "sell": []}
+
 
 class Command(BaseCommand):
     help = "Preenche os ativos com seu valor do momento atual"
@@ -27,20 +28,21 @@ class Command(BaseCommand):
         # enviar e-mail de template "COMPRAR" ou "VENDER"
 
         print("Comando 'asset_price' começou!")
-        assets_to_update = get_assets_to_update()
-        update_assets(assets_to_update)
+
+        now = timezone.now()
+        assets_to_update = get_assets_to_update(now)
+        update_assets(assets_to_update, now)
         send_email()
 
         print("assets_to_update", assets_to_update)
         print("Comando 'asset_price' rodou!")
 
 
-def get_assets_to_update():
+def get_assets_to_update(now):
     class DurationToMinutes(Func):
-        function = "EXTRACT"
-        template = "%(function)s(EPOCH FROM %(expressions)s) / 60"
+        function = "CEIL"
+        template = "%(function)s(EXTRACT(EPOCH FROM %(expressions)s) / 60)"
 
-    now = timezone.now()
     assets_to_update = Asset.objects.annotate(
         time_diff=Case(
             When(last_updated__isnull=False, then=ExpressionWrapper(
@@ -57,7 +59,7 @@ def get_assets_to_update():
     return assets_to_update
 
 
-def update_assets(assets):
+def update_assets(assets, now):
     all_assets = asset_list()
 
     assets_to_update = []
@@ -66,22 +68,20 @@ def update_assets(assets):
 
         if asset_api:
             #: API retorna um numero com ponto separando as casas decimais. O Python lida com isso.
-            now = timezone.now()
             current_price = asset_api["close"]
             asset_obj.cur_value = current_price
             asset_obj.last_updated = now
             assets_to_update.append(asset_obj)
 
             if current_price < asset_obj.min_value:
-                assets_to_email.append((asset_obj.name, "BUY"))
+                assets_to_email["buy"].append(asset_obj.name)
             elif current_price > asset_obj.max_value:
-                assets_to_email.append((asset_obj.name, "SELL"))
-
+                assets_to_email["sell"].append(asset_obj.name)
 
     Asset.objects.bulk_update(assets_to_update, ["cur_value", "last_updated"], batch_size=500)
 
 
 def send_email():
+    print("assets_to_email", assets_to_email)
     if assets_to_email:
-        print(assets_to_email)
         return
