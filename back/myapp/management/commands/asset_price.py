@@ -3,6 +3,7 @@ from django.core.management.base import BaseCommand
 from django.db.models import Q, F, ExpressionWrapper, fields, Case, When, Value, Func
 from django.utils import timezone
 from myapp.services.external_asset_svc import asset_list
+# from django.core.mail import send_mass_mail
 
 
 BASE_URL = "https://brapi.dev/api/"
@@ -84,4 +85,17 @@ def update_assets(assets, now):
 def send_email():
     print("assets_to_email", assets_to_email)
     if assets_to_email:
+        # buy_message = (
+        #     "Compre o ativo %s",
+        #     "Seu ativo atingiu um preço abaixo do mínimo especificado por você. Compre-o agora!",
+        #     "from@example.com",
+        #     ["%s"],
+        # )
+        # sell_message = (
+        #     "Venda o ativo %s",
+        #     "Seu ativo atingiu um preço acima do máximo especificado por você. Venda-o agora!",
+        #     "from@example.com",
+        #     ["%s"],
+        # )
+        # send_mass_mail((buy_message, sell_message), fail_silently=False)
         return
