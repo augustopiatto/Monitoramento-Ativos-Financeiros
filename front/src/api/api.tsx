@@ -37,12 +37,8 @@ const api = {
   getAssetsPrice(params: { ids: number[] }) {
     return get("assets/price/", params).then((response) => response.data);
   },
-  getExternalAssets(params?: {
-    asset?: string;
-  }): Promise<ExternalAssetInterface[]> {
-    return get("external_assets/list/", params).then(
-      (response) => response.data
-    );
+  getAssets(params?: { asset?: string }): Promise<ExternalAssetInterface[]> {
+    return get("assets/", params).then((response) => response.data);
   },
 };
 

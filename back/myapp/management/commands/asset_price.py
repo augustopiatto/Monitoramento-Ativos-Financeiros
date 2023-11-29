@@ -2,7 +2,7 @@ from myapp.models import Asset
 from django.core.management.base import BaseCommand
 from django.db.models import Q, F, ExpressionWrapper, fields, Case, When, Value, Func
 from django.utils import timezone
-from myapp.services.external_asset_svc import asset_list
+from myapp.services.external.external_asset import asset_list
 # from django.core.mail import send_mass_mail
 
 

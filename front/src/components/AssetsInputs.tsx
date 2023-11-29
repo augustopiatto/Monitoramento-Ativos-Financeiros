@@ -33,7 +33,7 @@ function AssetsInputs() {
   async function loadAssets() {
     try {
       const [responseURL, responseSelected] = await Promise.all([
-        api.getExternalAssets(),
+        api.getAssets(),
         api.getSelectedAssets(),
       ]);
       setResponseExternal(responseURL);

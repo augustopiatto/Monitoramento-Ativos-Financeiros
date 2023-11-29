@@ -1,4 +1,5 @@
 def asset_list(obj):
     return {
-        "name": obj["stock"]
+        "name": obj["stock"],
+        "cur_value": obj["close"]
     }
