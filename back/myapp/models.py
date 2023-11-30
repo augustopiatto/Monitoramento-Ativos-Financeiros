@@ -21,3 +21,4 @@ class PriceFunnel(models.Model):
     active = models.BooleanField(default=True)
     asset = models.ForeignKey("Asset", on_delete=models.CASCADE, null=True)
     user = models.ForeignKey("User", on_delete=models.CASCADE)
+    last_updated = models.DateTimeField(auto_now=False, auto_now_add=False, null=True)

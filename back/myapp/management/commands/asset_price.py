@@ -31,10 +31,10 @@ class Command(BaseCommand):
         print("Comando 'asset_price' começou!")
 
         now = timezone.now()
-        assets_to_update, funnels_to_compare = get_assets_to_update(now)
+        assets_to_update = get_assets_to_update(now)
         print("assets_to_update", assets_to_update)
-        update_assets(assets_to_update, funnels_to_compare, now)
-        send_email()
+        assets_to_update_list = update_assets(assets_to_update, now)
+        send_email(assets_to_update_list, now)
 
         print("Comando 'asset_price' rodou!")
 
@@ -59,41 +59,61 @@ def get_assets_to_update(now):
         Q(asset__last_updated__isnull=True) | Q(periodicity__lte=F("time_diff_minutes")), active=True
     )
 
-    assets_to_update = Asset.objects.filter(id__in=Subquery(funnels_to_compare.values("id")))
+    assets_to_update = Asset.objects.filter(id__in=Subquery(funnels_to_compare.values("asset_id")))
 
-    return assets_to_update, funnels_to_compare
+    return assets_to_update
 
 
-def update_assets(assets_to_update, funnels_to_compare, now):
+def update_assets(assets_to_update, now):
     all_assets = asset_list()
 
     assets_to_update_list = []
-    assets_to_compare = []
     for asset_obj in assets_to_update:
-        asset_api = next((asset for asset in all_assets if asset["name"] == asset_obj.name), None)
+        asset_api = [asset for asset in all_assets if asset["name"] == asset_obj.name]
 
         if asset_api:
+            asset_api = asset_api[0]
             #: API retorna um numero com ponto separando as casas decimais. O Python lida com isso.
             current_value = asset_api["cur_value"]
             asset_obj.cur_value = current_value
             asset_obj.last_updated = now
             assets_to_update_list.append(asset_obj)
-            
-            all_funnels = funnels_to_compare.values("id", "max_value", "min_value")
-            for funnel in all_funnels:
-                if funnel["id"] == asset_obj.id:
-                    if current_value < funnel["min_value"]:
-                        assets_to_email["buy"].append(asset_obj.name)
-                    elif current_value > funnel["max_value"]:
-                        assets_to_email["sell"].append(asset_obj.name)
 
     Asset.objects.bulk_update(assets_to_update_list, ["cur_value", "last_updated"], batch_size=500)
 
-    return assets_to_compare
+    return assets_to_update_list
 
 
-def send_email():
-    print("assets_to_email", assets_to_email)
+def send_email(assets_to_update_list, now):
+    assets_to_update_ids = [asset.id for asset in assets_to_update_list]
+
+    class DurationToMinutes(Func):
+        function = "CEIL"
+        template = "%(function)s(EXTRACT(EPOCH FROM %(expressions)s)) / 60"
+
+    funnels_to_update = PriceFunnel.objects.annotate(
+        time_diff=Case(
+            When(last_updated__isnull=False, then=ExpressionWrapper(
+                now - F("last_updated"),
+                output_field=fields.DurationField()
+            )),
+            default=Value(None),
+            output_field=fields.DurationField()
+        )
+    ).annotate(
+        time_diff_minutes=DurationToMinutes("time_diff")
+    ).filter(
+        Q(last_updated__isnull=True) | Q(periodicity__lte=F("time_diff_minutes")), active=True, asset_id__in=assets_to_update_ids
+    )
+
+    for funnel in funnels_to_update:
+        assets = [asset for asset in assets_to_update_list if asset.id == funnel.asset_id]
+        for asset in assets:
+            if asset.cur_value < funnel.min_value:
+                assets_to_email["buy"].append((asset.name, funnel.user.email))
+            elif asset.cur_value > funnel.max_value:
+                assets_to_email["sell"].append((asset.name, funnel.user.email))
+
     if assets_to_email:
         # buy_message = (
         #     "Compre o ativo %s",
