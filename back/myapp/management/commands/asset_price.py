@@ -1,13 +1,18 @@
-from myapp.models import Asset, PriceFunnel
 from django.core.management.base import BaseCommand
-from django.db.models import Q, F, ExpressionWrapper, fields, Case, When, Value, Func, Subquery
+from django.db.models import Q, F, ExpressionWrapper, fields, Func
 from django.utils import timezone
+from django.core.mail import send_mass_mail
+from django.core.exceptions import ValidationError
+from myapp.models import Asset, PriceFunnel
 from myapp.services.external.external_asset import asset_list
-# from django.core.mail import send_mass_mail
 
 
 BASE_URL = "https://brapi.dev/api/"
-assets_to_email = {"buy": [], "sell": []}
+
+
+class DurationToMinutes(Func):
+    function = "CEIL"
+    template = "%(function)s(EXTRACT(EPOCH FROM %(expressions)s)) / 60"
 
 
 class Command(BaseCommand):
@@ -40,26 +45,19 @@ class Command(BaseCommand):
 
 
 def get_assets_to_update(now):
-    class DurationToMinutes(Func):
-        function = "CEIL"
-        template = "%(function)s(EXTRACT(EPOCH FROM %(expressions)s)) / 60"
-
-    funnels_to_compare = PriceFunnel.objects.annotate(
-        time_diff=Case(
-            When(asset__last_updated__isnull=False, then=ExpressionWrapper(
-                now - F("asset__last_updated"),
-                output_field=fields.DurationField()
-            )),
-            default=Value(None),
-            output_field=fields.DurationField()
-        )
-    ).annotate(
-        time_diff_minutes=DurationToMinutes("time_diff")
-    ).filter(
-        Q(asset__last_updated__isnull=True) | Q(periodicity__lte=F("time_diff_minutes")), active=True
+    time_diff_expr = ExpressionWrapper(
+        now - F("asset__last_updated"),
+        output_field=fields.DurationField()
     )
 
-    assets_to_update = Asset.objects.filter(id__in=Subquery(funnels_to_compare.values("asset_id")))
+    funnels_to_compare = PriceFunnel.objects.filter(
+        Q(asset__last_updated__isnull=True) | 
+        Q(periodicity__lte=DurationToMinutes(time_diff_expr)),
+        active=True
+    ).values("asset_id").distinct()
+
+    asset_ids = [funnel['asset_id'] for funnel in funnels_to_compare]
+    assets_to_update = Asset.objects.filter(id__in=asset_ids)
 
     return assets_to_update
 
@@ -86,46 +84,29 @@ def update_assets(assets_to_update, now):
 
 def send_email(assets_to_update_list, now):
     assets_to_update_ids = [asset.id for asset in assets_to_update_list]
+    assets_to_email = {"buy": [], "sell": []}
 
-    class DurationToMinutes(Func):
-        function = "CEIL"
-        template = "%(function)s(EXTRACT(EPOCH FROM %(expressions)s)) / 60"
+    funnels_to_update = PriceFunnel.objects.filter(
+        Q(last_updated__isnull=True) |
+        Q(periodicity__lte=DurationToMinutes(now - F("last_updated"))), 
+        active=True, 
+        asset_id__in=assets_to_update_ids
+    ).select_related('user')
 
-    funnels_to_update = PriceFunnel.objects.annotate(
-        time_diff=Case(
-            When(last_updated__isnull=False, then=ExpressionWrapper(
-                now - F("last_updated"),
-                output_field=fields.DurationField()
-            )),
-            default=Value(None),
-            output_field=fields.DurationField()
-        )
-    ).annotate(
-        time_diff_minutes=DurationToMinutes("time_diff")
-    ).filter(
-        Q(last_updated__isnull=True) | Q(periodicity__lte=F("time_diff_minutes")), active=True, asset_id__in=assets_to_update_ids
-    )
-
-    for funnel in funnels_to_update:
-        assets = [asset for asset in assets_to_update_list if asset.id == funnel.asset_id]
-        for asset in assets:
+    for asset in assets_to_update_list:
+        relevant_funnels = [funnel for funnel in funnels_to_update if funnel.asset_id == asset.id]
+        for funnel in relevant_funnels:
             if asset.cur_value < funnel.min_value:
                 assets_to_email["buy"].append((asset.name, funnel.user.email))
             elif asset.cur_value > funnel.max_value:
                 assets_to_email["sell"].append((asset.name, funnel.user.email))
 
-    if assets_to_email:
-        # buy_message = (
-        #     "Compre o ativo %s",
-        #     "Seu ativo atingiu um preço abaixo do mínimo especificado por você. Compre-o agora!",
-        #     "from@example.com",
-        #     ["%s"],
-        # )
-        # sell_message = (
-        #     "Venda o ativo %s",
-        #     "Seu ativo atingiu um preço acima do máximo especificado por você. Venda-o agora!",
-        #     "from@example.com",
-        #     ["%s"],
-        # )
-        # send_mass_mail((buy_message, sell_message), fail_silently=False)
-        return
+    print("assets_to_email", assets_to_email)
+    if assets_to_email["buy"] or assets_to_email["sell"]:
+        try:
+            buy_messages = [("Compre o ativo %s" % asset_name, "Seu ativo atingiu um preço abaixo do mínimo especificado por você. Compre-o agora!", "from@example.com", [email]) for asset_name, email in assets_to_email["buy"]]
+            sell_messages = [("Venda o ativo %s" % asset_name, "Seu ativo atingiu um preço acima do máximo especificado por você. Venda-o agora!", "from@example.com", [email]) for asset_name, email in assets_to_email["sell"]]
+            # send_mass_mail(buy_messages + sell_messages, fail_silently=False)
+            funnels_to_update.update(last_updated=now)
+        except:
+            raise ValidationError("Houve um problema para enviar os e-mails. Verifique o que pode ter sido")
