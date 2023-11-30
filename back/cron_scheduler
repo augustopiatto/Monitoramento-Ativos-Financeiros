@@ -1,5 +1,2 @@
 * * * * * /bin/chmod 544 /etc/cron.d/cron_shells/asset_price.sh && /etc/cron.d/cron_shells/asset_price.sh > /proc/1/fd/1 2>/proc/1/fd/2
-
-# tem que ter outro para buscar novos ativos de tempo em tempo, caso venham a surgir,
-# acredito que a cada 12h seja o suficiente
-# * * * * * /bin/chmod 544 /etc/cron.d/cron_shells/asset_price.sh && /etc/cron.d/cron_shells/asset_price.sh > /proc/1/fd/1 2>/proc/1/fd/2
+0 */12 * * * /bin/chmod 544 /etc/cron.d/cron_shells/new_assets.sh && /etc/cron.d/cron_shells/new_assets.sh > /proc/1/fd/1 2>/proc/1/fd/2

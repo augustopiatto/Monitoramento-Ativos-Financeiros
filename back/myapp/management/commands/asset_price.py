@@ -29,8 +29,8 @@ class Command(BaseCommand):
 
         assets_to_update_list = update_assets(assets_to_update, now)
 
-        if EMAIL_HOST_USER:
-            send_email(assets_to_update_list, now)
+        # if EMAIL_HOST_USER:
+        #     send_email(assets_to_update_list, now)
 
         self.stdout.write(
             self.style.SUCCESS("Comando rodou! %s ativo(s) atualizado(s)!" % len(assets_to_update_list))
