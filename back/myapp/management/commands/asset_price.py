@@ -8,7 +8,6 @@ from myapp.services.external.external_asset import asset_list
 from settings import EMAIL_HOST_USER
 
 
-
 BASE_URL = "https://brapi.dev/api/"
 
 

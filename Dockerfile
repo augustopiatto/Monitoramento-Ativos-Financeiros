@@ -9,6 +9,7 @@ RUN pip install -r /setup/requirements.txt
 # Cron
 RUN apt-get update
 RUN apt-get -y install cron
+RUN apt-get -y install wait-for-it
 
 RUN mkdir -p /commands
 COPY ./back/myapp/management/commands /commands
