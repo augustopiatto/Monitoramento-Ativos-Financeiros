@@ -5,6 +5,8 @@ from django.core.mail import send_mass_mail
 from django.core.exceptions import ValidationError
 from myapp.models import Asset, PriceFunnel
 from myapp.services.external.external_asset import asset_list
+from settings import EMAIL_HOST_USER
+
 
 
 BASE_URL = "https://brapi.dev/api/"
@@ -22,26 +24,17 @@ class Command(BaseCommand):
         pass
 
     def handle(self, *args, **options):
-        # Fluxo:
-
-        # Vou ter q pegar todos o assets do meu banco que tiverem o now() - last_updated >= periodicity
-        # e buscar na api externa do brapi (talvez ver alguma diferente, que possa passar os nomes
-        # e retornar só as que preciso)
-
-        # Atualizar os cur_value e last_updated destes assets
-
-        # Comparar os cur_value com os limites de tunel max_value e min_value e
-        # enviar e-mail de template "COMPRAR" ou "VENDER"
-
-        print("Comando 'asset_price' começou!")
-
         now = timezone.now()
         assets_to_update = get_assets_to_update(now)
-        print("assets_to_update", assets_to_update)
-        assets_to_update_list = update_assets(assets_to_update, now)
-        send_email(assets_to_update_list, now)
 
-        print("Comando 'asset_price' rodou!")
+        assets_to_update_list = update_assets(assets_to_update, now)
+
+        if EMAIL_HOST_USER:
+            send_email(assets_to_update_list, now)
+
+        self.stdout.write(
+            self.style.SUCCESS("Comando rodou! %s ativo(s) atualizado(s)!" % len(assets_to_update_list))
+        )
 
 
 def get_assets_to_update(now):
@@ -101,12 +94,23 @@ def send_email(assets_to_update_list, now):
             elif asset.cur_value > funnel.max_value:
                 assets_to_email["sell"].append((asset.name, funnel.user.email))
 
-    print("assets_to_email", assets_to_email)
     if assets_to_email["buy"] or assets_to_email["sell"]:
         try:
-            buy_messages = [("Compre o ativo %s" % asset_name, "Seu ativo atingiu um preço abaixo do mínimo especificado por você. Compre-o agora!", "from@example.com", [email]) for asset_name, email in assets_to_email["buy"]]
-            sell_messages = [("Venda o ativo %s" % asset_name, "Seu ativo atingiu um preço acima do máximo especificado por você. Venda-o agora!", "from@example.com", [email]) for asset_name, email in assets_to_email["sell"]]
-            # send_mass_mail(buy_messages + sell_messages, fail_silently=False)
+            buy_messages = [
+                ("Compre o ativo %s" % asset_name,
+                 "Seu ativo atingiu um preço abaixo do mínimo especificado por você. Compre-o agora!",
+                 EMAIL_HOST_USER,
+                 [email]
+                ) for asset_name, email in assets_to_email["buy"]
+            ]
+            sell_messages = [
+                ("Venda o ativo %s" % asset_name,
+                 "Seu ativo atingiu um preço acima do máximo especificado por você. Venda-o agora!",
+                 EMAIL_HOST_USER,
+                 [email]) for asset_name, email in assets_to_email["sell"]
+                ]
+            send_mass_mail(buy_messages + sell_messages, fail_silently=False)
             funnels_to_update.update(last_updated=now)
-        except:
-            raise ValidationError("Houve um problema para enviar os e-mails. Verifique o que pode ter sido")
+        except Exception as error:
+            print("%s", error)
+            raise ValidationError("Houve um problema para enviar os e-mails. Verifique o que pode ter sido.")

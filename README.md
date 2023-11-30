@@ -22,6 +22,10 @@ Para iniciar o projeto, siga os passos abaixo:
 - Rode o comando `npm run build` dentro da pasta `/front` sempre que houver uma mudança para ser refletida no servidor.
 - Rode o comando `docker compose up --build` na pasta raiz.
 
+### E-mail
+
+Caso deseje enviar/receber os e-mails de acordo com os ativos cadastrados, configure seu e-mail Google seguindo este [tutorial](https://knowledge.workspace.google.com/kb/how-to-generate-an-app-passwords-000009237?hl=pt-br) e preencha as variáveis `EMAIL_HOST_USER` e `EMAIL_HOST_PASSWORD` no seu arquivo `.env`
+
 ## Estrutura de pasta
 
 ```
