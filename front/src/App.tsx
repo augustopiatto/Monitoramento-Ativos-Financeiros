@@ -1,4 +1,4 @@
-import AssetsInputs from "./components/AssetsInputs";
+import AssetsInputs from "./components/AssetsInputs/AssetsInputs";
 import AssetsView from "./components/TunnelsView";
 
 function App() {

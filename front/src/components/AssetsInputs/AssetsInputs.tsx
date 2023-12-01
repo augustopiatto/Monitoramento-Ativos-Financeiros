@@ -1,12 +1,12 @@
 import React from "react";
-import Input from "./html_components/Input";
-import MoneyInput from "./input_components/MoneyInput";
-import Select from "./html_components/Select";
-import Button from "./html_components/Button";
-import Spacer from "./ui_components/Spacer";
-import api from "../api/api";
-import { FunnelsContext } from "../contexts/FunnelsContext";
-import { getErrorMessage } from "../helpers/helpers";
+import Input from "../html_components/Input";
+import MoneyInput from "../input_components/MoneyInput";
+import Select from "../html_components/Select";
+import Button from "../html_components/Button";
+import Spacer from "../ui_components/Spacer";
+import api from "../../api/api";
+import { FunnelsContext } from "../../contexts/FunnelsContext";
+import { getErrorMessage } from "../../helpers/helpers";
 import { AxiosError } from "axios";
 // import { assetsFromURL } from "../apimock/apimock";
 
