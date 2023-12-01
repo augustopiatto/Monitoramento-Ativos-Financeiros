@@ -30,5 +30,5 @@ class Command(BaseCommand):
         Asset.objects.bulk_create(assets_to_create, batch_size=500)
 
         self.stdout.write(
-            self.style.SUCCESS("Comando rodou! %s ativo(s) criados(s)!" % len(assets_to_create))
+            self.style.SUCCESS("O comando de preencher novos ativos rodou! %s ativo(s) criados(s)!" % len(assets_to_create))
         )
