@@ -1,15 +1,22 @@
 from myapp.views import asset_views
-from myapp.models import Asset
+import json
 
 
-def test_post_student_grade_view(db, rf, mocker):
-    mocker.patch("myapp.services.asset_svc.get_assets", return_value=[])
-    asset = Asset.objects.create(name="test")
-    request = rf.get(
-        "api/asset/",
-        {"params": {"id": asset.id, "name": asset.name}},
-        content_type="application/json"
-    )
-    response = asset_views.get_assets(request)
+def test_get_assets_with_id(db, rf, mocker, asset_ABC, asset_DEF):
+    mocker.patch("myapp.services.asset_svc.asset", return_value=[asset_ABC])
+    request = rf.get("api/asset/", {"ids[]": [asset_ABC.id]})
+    response = asset_views.asset(request)
 
     assert response.status_code == 200
+    json_response = json.loads(response.content)
+    assert len(json_response) == 1
+
+
+def test_get_assets_without_id(db, rf, mocker, asset_ABC, asset_DEF):
+    mocker.patch("myapp.services.asset_svc.asset", return_value=[asset_ABC, asset_DEF])
+    request = rf.get("api/asset/", {})
+    response = asset_views.asset(request)
+
+    assert response.status_code == 200
+    json_response = json.loads(response.content)
+    assert len(json_response) == 2
