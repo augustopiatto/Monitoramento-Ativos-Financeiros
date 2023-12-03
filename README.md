@@ -71,5 +71,6 @@ O projeto possui as seguintes funcionalidades:
 
 ## Melhorias futuras
 
+- Validações de input no front e back
 - Cadastro de usuários
 - Uso de cache e de fila caso a quantidade de requisições cresça

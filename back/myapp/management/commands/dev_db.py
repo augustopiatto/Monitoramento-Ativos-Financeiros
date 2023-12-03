@@ -22,14 +22,13 @@ class Command(BaseCommand):
 
 
 def create_users():
-    existing_users = User.objects.all().exists()
-    if existing_users:
-        pass
+    existing_users = User.objects.all()
+    if existing_users.exists():
+        return existing_users[0], existing_users[1]
     else:
         augusto_user = User.objects.create(name="Augusto", email="example1@example.com")
         pedro_user = User.objects.create(name="Pedro", email="example2@example.com")
-
-    return augusto_user, pedro_user
+        return augusto_user, pedro_user
 
 
 def create_assets(now):
