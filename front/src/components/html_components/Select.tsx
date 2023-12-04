@@ -15,6 +15,7 @@ function Select({ items, name, placeholder, setValue }: SelectInterface) {
     >
       <h3 className="text-xl font-bold">{name}</h3>
       <select
+        data-testid="select"
         className="p-3 border border-white rounded-md text-lg focus:outline-0 focus:border-2 focus:border-slate-400 [&>*]:text-lg [&>*]:h-10"
         name={name}
         defaultValue="default"

@@ -10,6 +10,7 @@ function Button({ name, onClick, secondary }: ButtonInterface) {
 
   return (
     <button
+      data-testid="button"
       className={`${bgColor} ${textColor} rounded-lg px-5 py-4 text-lg font-semibold max-w-[500px] w-full uppercase shadow-md shadow-gray hover:scale-105`}
       onClick={onClick}
     >
