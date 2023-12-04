@@ -1,6 +1,6 @@
 import { AssetInterface, FunnelInterface } from "../interfaces/ItemInterface";
 
-export const assetsFromURL: AssetInterface[] = [
+export const assetsMock: AssetInterface[] = [
   { id: 1, name: "Petro", cur_value: 150 },
   { id: 2, name: "Enel", cur_value: 120 },
   { id: 3, name: "MWL", cur_value: 30 },
@@ -13,7 +13,7 @@ export const assetsFromURL: AssetInterface[] = [
   { id: 10, name: "EEE", cur_value: 6 },
 ];
 
-export const selectedAssetsFromPostgres: FunnelInterface[] = [
+export const funnelsMock: FunnelInterface[] = [
   { id: 1, name: "Petro", periodicity: 120, max_value: 200, min_value: 100 },
   { id: 2, name: "Enel", periodicity: 170, max_value: 220, min_value: 80 },
   { id: 3, name: "MWL", periodicity: 60, max_value: 50, min_value: 10 },
@@ -21,7 +21,7 @@ export const selectedAssetsFromPostgres: FunnelInterface[] = [
   { id: 5, name: "Buser", periodicity: 2000, max_value: 145, min_value: 140 },
 ];
 
-export const assetInfosFromPostgres: AssetInterface[] = [
+export const assetsFromTunnelsMock: AssetInterface[] = [
   { id: 1, name: "Petro", cur_value: 150 },
   { id: 2, name: "Enel", cur_value: 120 },
   { id: 3, name: "MWL", cur_value: 30 },

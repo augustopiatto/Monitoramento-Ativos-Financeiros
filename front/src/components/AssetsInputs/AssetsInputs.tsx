@@ -7,8 +7,8 @@ import Spacer from "../ui_components/Spacer";
 import api from "../../api/api";
 import { FunnelsContext } from "../../contexts/FunnelsContext";
 import { getErrorMessage } from "../../helpers/helpers";
-import { AxiosError } from "axios";
-// import { assetsFromURL } from "../apimock/apimock";
+// import { AxiosError } from "axios";
+import { assetsMock, funnelsMock } from "../../apimock/apimock";
 
 function AssetsInputs() {
   const [peridiocity, setPeridiocity] = React.useState<number | "">("");
@@ -25,35 +25,35 @@ function AssetsInputs() {
     filterNotSelectedAssets,
   } = React.useContext(FunnelsContext);
 
-  // function loadFakeAssets() {
-  //   setFunnels(selectedAssetsFromPostgres);
-  //   filterNotSelectedAssets(assetsFromURL, selectedAssetsFromPostgres);
-  // }
-
-  async function loadAssets() {
-    const funnelsParams = { user_id: 1 };
-    try {
-      const [responseURL, responseSelected] = await Promise.all([
-        api.getAssets(),
-        api.getFunnels(funnelsParams),
-      ]);
-      setAllAssets(responseURL);
-      setFunnels(responseSelected);
-      filterNotSelectedAssets(responseURL, responseSelected);
-    } catch (error) {
-      const message = getErrorMessage(error);
-      let failedURL = "";
-      if (error instanceof AxiosError) failedURL = error.request.responseURL;
-      let failedEndpoint = "";
-      if (failedURL.includes("api/assets/"))
-        failedEndpoint = "trazer os ativos selecionados";
-      else failedEndpoint = "trazer todos os ativos existentes";
-      window.alert(
-        `Houve um problema com o endpoint de ${failedEndpoint}. Erro ${message}`
-      );
-      return;
-    }
+  function loadFakeAssets() {
+    setFunnels(funnelsMock);
+    filterNotSelectedAssets(assetsMock, funnelsMock);
   }
+
+  // async function loadAssets() {
+  //   const funnelsParams = { user_id: 1 };
+  //   try {
+  //     const [responseURL, responseSelected] = await Promise.all([
+  //       api.getAssets(),
+  //       api.getFunnels(funnelsParams),
+  //     ]);
+  //     setAllAssets(responseURL);
+  //     setFunnels(responseSelected);
+  //     filterNotSelectedAssets(responseURL, responseSelected);
+  //   } catch (error) {
+  //     const message = getErrorMessage(error);
+  //     let failedURL = "";
+  //     if (error instanceof AxiosError) failedURL = error.request.responseURL;
+  //     let failedEndpoint = "";
+  //     if (failedURL.includes("api/assets/"))
+  //       failedEndpoint = "trazer os ativos selecionados";
+  //     else failedEndpoint = "trazer todos os ativos existentes";
+  //     window.alert(
+  //       `Houve um problema com o endpoint de ${failedEndpoint}. Erro ${message}`
+  //     );
+  //     return;
+  //   }
+  // }
 
   function resetInputs() {
     setAssetName("");
@@ -88,9 +88,9 @@ function AssetsInputs() {
   }
 
   React.useEffect(() => {
-    loadAssets();
+    // loadAssets();
     //: É a chamada de mock do front
-    // loadFakeAssets();
+    loadFakeAssets();
   }, []);
 
   return (
@@ -111,6 +111,7 @@ function AssetsInputs() {
         name={"Túnel Superior (R$)"}
         value={maxValue}
         setValue={setMaxValue}
+        rules={["validNumber"]}
       />
       <MoneyInput
         name={"Túnel Inferior (R$)"}

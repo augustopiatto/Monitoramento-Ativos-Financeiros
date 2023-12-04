@@ -71,7 +71,6 @@ O projeto possui as seguintes funcionalidades:
 
 ## Melhorias futuras
 
-- Teste de front
 - Usar logging
 - Validações de input no front e back
 - Cadastro de usuários
