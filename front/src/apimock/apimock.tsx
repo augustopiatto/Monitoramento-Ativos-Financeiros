@@ -27,3 +27,21 @@ export const assetsFromTunnelsMock: AssetInterface[] = [
   { id: 3, name: "MWL", cur_value: 30 },
   { id: 4, name: "B2W", cur_value: 1800 },
 ];
+
+interface newAssetMock {
+  name: string;
+  periodicity: number;
+  max_value: number;
+  min_value: number;
+  user_id: number;
+}
+
+export function newAssetMock(params: newAssetMock): FunnelInterface {
+  return {
+    id: params.periodicity + 1,
+    name: params.name,
+    periodicity: params.periodicity,
+    max_value: params.max_value,
+    min_value: params.min_value,
+  };
+}

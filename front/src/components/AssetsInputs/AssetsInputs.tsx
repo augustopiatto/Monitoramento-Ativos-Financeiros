@@ -8,7 +8,7 @@ import api from "../../api/api";
 import { FunnelsContext } from "../../contexts/FunnelsContext";
 import { getErrorMessage } from "../../helpers/helpers";
 // import { AxiosError } from "axios";
-import { assetsMock, funnelsMock } from "../../apimock/apimock";
+import { assetsMock, funnelsMock, newAssetMock } from "../../apimock/apimock";
 
 function AssetsInputs() {
   const [peridiocity, setPeridiocity] = React.useState<number | "">("");
@@ -25,6 +25,7 @@ function AssetsInputs() {
     filterNotSelectedAssets,
   } = React.useContext(FunnelsContext);
 
+  //: Mock
   function loadFakeAssets() {
     setFunnels(funnelsMock);
     filterNotSelectedAssets(assetsMock, funnelsMock);
@@ -64,6 +65,9 @@ function AssetsInputs() {
 
   async function handleClick() {
     if (assetName && peridiocity && maxValue && minValue) {
+      if (maxValue < minValue) {
+        window.alert("O túnel superior tem que maior que o túnel inferior");
+      }
       const params = {
         name: assetName,
         periodicity: peridiocity,
@@ -74,7 +78,9 @@ function AssetsInputs() {
         user_id: 1,
       };
       try {
-        const newAsset = await api.postFunnel(params);
+        //: Mock
+        const newAsset = newAssetMock(params);
+        // const newAsset = await api.postFunnel(params);
         const newSelectedAssets = [...funnels, newAsset];
         setFunnels(newSelectedAssets);
         filterNotSelectedAssets(allAssets, newSelectedAssets);
@@ -84,6 +90,8 @@ function AssetsInputs() {
         return;
       }
       resetInputs();
+    } else {
+      window.alert("Todos campos são obrigatórios");
     }
   }
 
@@ -117,6 +125,7 @@ function AssetsInputs() {
         name={"Túnel Inferior (R$)"}
         value={minValue}
         setValue={setMinValue}
+        rules={["validNumber"]}
       />
       <Spacer />
       <Button name={"Adicionar"} onClick={handleClick} secondary />

@@ -1,5 +1,5 @@
 import React from "react";
-import { allRules } from "../../helpers/rules";
+import { ValidatorInterface, allRules } from "../../helpers/rules";
 import { getErrorMessage } from "../../helpers/helpers";
 
 interface MoneyInputInterface {
@@ -17,7 +17,7 @@ function MoneyInput({ name, value, setValue, rules }: MoneyInputInterface) {
     const validationErrors: string[] = [];
     if (rules && rules.length) {
       rules.forEach((rule) => {
-        const currentValidator = allRules[rule as keyof {}];
+        const currentValidator = allRules[rule as keyof ValidatorInterface];
         try {
           const value = currentValidator ? currentValidator(number) : null;
           if (typeof value === "number") setValue(value);

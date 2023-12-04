@@ -1,4 +1,4 @@
-interface ValidatorInterface {
+export interface ValidatorInterface {
   [key: string]: (value: string | number) => string | number;
 }
 
