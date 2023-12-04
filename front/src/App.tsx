@@ -1,5 +1,5 @@
 import AssetsInputs from "./components/AssetsInputs/AssetsInputs";
-import AssetsView from "./components/TunnelsView";
+import AssetsView from "./components/FunnelsView";
 
 function App() {
   return (
