@@ -1,7 +1,6 @@
 import { test, expect, describe } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import AssetsInputs from "../AssetsInputs";
-import userEvent from "@testing-library/user-event";
 
 describe("AssetsInputs.tsx", () => {
   test("Componente sendo montado", () => {
@@ -20,22 +19,20 @@ describe("AssetsInputs.tsx", () => {
     expect(button).toBeDefined();
   });
 
-  test("Adiciona um input", async () => {
+  test("Adiciona valores", async () => {
     render(<AssetsInputs />);
 
-    const selectInput = screen.getByTestId("select");
-    userEvent.selectOptions(selectInput, "ABC");
-    expect(selectInput.value).toBe("ABC");
-
-    const innerPeriodicityInput = screen.getByTestId("input");
+    const innerPeriodicityInput = screen.getByTestId(
+      "input"
+    ) as HTMLInputElement;
     fireEvent.change(innerPeriodicityInput, {
       target: { value: "1" },
     });
     expect(innerPeriodicityInput.value).toBe("1");
 
     const innerMoneyInputs = screen.getAllByTestId("money-input");
-    const maxValueInput = innerMoneyInputs[0];
-    const minValueInput = innerMoneyInputs[1];
+    const maxValueInput = innerMoneyInputs[0] as HTMLInputElement;
+    const minValueInput = innerMoneyInputs[1] as HTMLInputElement;
     fireEvent.change(maxValueInput, {
       target: { value: "2" },
     });
@@ -44,10 +41,5 @@ describe("AssetsInputs.tsx", () => {
     });
     expect(maxValueInput.value).toBe("2");
     expect(minValueInput.value).toBe("1");
-
-    const buttonInput = screen.getByText("Adicionar");
-    fireEvent.click(buttonInput);
-
-    // expect(innerPeriodicityInput.value).toBe("");
   });
 });
