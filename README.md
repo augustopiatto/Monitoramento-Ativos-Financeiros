@@ -25,26 +25,22 @@ Para iniciar o projeto, siga os passos abaixo:
 - Caso deseje enviar/receber os e-mails de acordo com os ativos cadastrados, configure seu e-mail Google seguindo este [tutorial](https://knowledge.workspace.google.com/kb/how-to-generate-an-app-passwords-000009237?hl=pt-br) e preencha as variáveis `EMAIL_HOST_USER` e `EMAIL_HOST_PASSWORD` no seu arquivo `.env`.
 - Rode o comando `docker compose up --build` na pasta raiz.
 
-## Estrutura de pasta
-
-```
-├── front                         # Pasta com informações do front-end
-└── back                          # Pasta com informações do back-end
-```
-
 ## Tecnologias e funcionalidades
 
 ### Tecnologias
 
 O projeto inclui as seguintes tecnologias:
 
-- React:
-- Typescript:
-- Tailwind CSS:
-- Django:
-- Python:
-- PostgreSQL:
-- Docker: Container para a aplicação, para que haja uma padronização do projeto independente da máquina utilizada
+- React para construir interfaces de usuário reativas
+- Typescript para desenvolvimento, escalabilidade e segurança de tipo
+- Tailwind CSS para estilização de UI
+- Vitest para construção de testes unitários de frontend
+- Django para desenvolvimento rápido e estruturação de fluxo de processo
+- Django SMTP E-mail como servidor local para envio de e-mail
+- Python como linguagem de alto-nível e de fácil leitura
+- Pytest para construção de testes unitários de backend
+- PostgreSQL para armazenamento de informações de forma segura e escalável
+- Docker como container para a aplicação, para que haja uma padronização do projeto independente da máquina utilizada
 
 ### Funcionalidades
 
