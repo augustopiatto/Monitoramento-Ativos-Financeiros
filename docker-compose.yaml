@@ -8,10 +8,8 @@ services:
       - db-data:/data/db
     ports:
       - "5432:5432"
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    env_file:
+      - .env
 
   nginx:
     restart: always
@@ -32,14 +30,8 @@ services:
       - "8000:8000"
     volumes:
       - ./back:/app
-    environment:
-      DATABASE_HOST: db
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      SECRET_KEY: ${SECRET_KEY}
-      EMAIL_HOST_USER: ${EMAIL_HOST_USER}
-      EMAIL_HOST_PASSWORD: ${EMAIL_HOST_PASSWORD}
+    env_file:
+      - .env
     depends_on:
       - nginx
 

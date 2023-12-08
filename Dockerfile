@@ -10,6 +10,7 @@ RUN pip install -r /setup/requirements.txt
 RUN apt-get update
 RUN apt-get -y install cron
 RUN apt-get -y install wait-for-it
+RUN apt-get -y install dos2unix
 
 RUN mkdir -p /commands
 COPY ./back/myapp/management/commands /commands
@@ -23,5 +24,9 @@ COPY .env /env_files/env_back
 
 COPY ./back/start.sh /etc/start.sh
 RUN chmod 544 /etc/start.sh
+
+RUN dos2unix /etc/start.sh
+RUN dos2unix /etc/cron.d/cron_scheduler
+RUN find /etc/cron.d/cron_shells -type f -exec dos2unix {} \;
 
 CMD ["/etc/start.sh"]

@@ -19,7 +19,8 @@ O objetivo é permitir que o usuário consiga ter maior controle dos seus ativos
 Para iniciar o projeto, siga os passos abaixo:
 
 - Clone o repositório em sua máquina local.
-- Rode o comando `npm run build` dentro da pasta `/front`. Rode também sempre que houver uma mudança para ser refletida no servidor.
+- Dentro da pasta `/front`, rode o comando `npm install`.
+- Na mesma pasta, rode `npm run build`. Rode também sempre que houver uma mudança para ser refletida na tela.
 - Crie um arquivo `.env` com as mesmas variáveis e no mesmo diretório do arquivo `.env.sample`.
 - Crie uma chave de API no [Brapi](https://brapi.dev/) para fazer as buscas de ativos.
 - Caso deseje enviar/receber os e-mails de acordo com os ativos cadastrados, configure seu e-mail Google seguindo este [tutorial](https://knowledge.workspace.google.com/kb/how-to-generate-an-app-passwords-000009237?hl=pt-br) e preencha as variáveis `EMAIL_HOST_USER` e `EMAIL_HOST_PASSWORD` no seu arquivo `.env`.
